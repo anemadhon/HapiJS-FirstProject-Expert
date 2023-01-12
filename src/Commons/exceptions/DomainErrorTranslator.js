@@ -34,10 +34,13 @@ DomainErrorTranslator._directories = {
 	'DELETE_AUTHENTICATION_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION':
 		new InvariantError('refresh token harus string'),
 	'CREATE_THREAD.INVALID_PAYLOAD': new InvariantError(
-		'pesan apapun selama tidak kosong.'
+		'tidak dapat menambah thread baru karena properti yang dibutuhkan tidak ada.'
 	),
 	'CREATE_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
-		'data yang dikirim harus string.'
+		'tidak dapat menambah thread baru karena tipe data tidak sesuai.'
+	),
+	'CREATE_THREAD.PAYLOAD_LIMIT_CHAR': new InvariantError(
+		'tidak dapat menambah thread baru karena karakter title/body melebihi batas limit.'
 	),
 }
 
