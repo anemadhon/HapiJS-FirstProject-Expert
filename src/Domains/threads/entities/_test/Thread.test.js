@@ -8,29 +8,22 @@ describe('a Thread entities', () => {
 			'CREATE_THREAD.INVALID_PAYLOAD'
 		)
 	})
-	it('should throw error when title or body are not a string', () => {
+	it('should throw error when payload are not a string', () => {
 		const payload = {
 			id: 1,
 			title: 123,
-			body: [],
+			owner: true,
 		}
 
 		expect(() => new Thread(payload)).toThrowError(
 			'CREATE_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION'
 		)
 	})
-	it('should throw an error when id is integer', () => {
-		const payload = { id: 123, title: 'title', body: 'body' }
-
-		expect(() => new Thread(payload)).toThrowError(
-			'CREATE_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION'
-		)
-	})
-	it('should throw error when title or body are reached the char limit', () => {
+	it('should throw error when title are reached the char limit', () => {
 		const payload = {
 			id: 'id',
 			title: 'dicodingindonesiadicodingindonesiadicodingindonesiadicoding',
-			body: 'dicodingindonesiadicodingindonesiadicodingindonesiadicoding',
+			owner: 'id',
 		}
 
 		expect(() => new Thread(payload)).toThrowError(
@@ -39,14 +32,14 @@ describe('a Thread entities', () => {
 	})
 	it('should created Thread object correctly', () => {
 		const payload = {
-			id: 'thread-123qweasdzxc890',
+			id: 'thread-123',
 			title: 'title',
-			body: 'body',
+			owner: 'user-123',
 		}
 		const thread = new Thread(payload)
 
 		expect(thread.id).toEqual(payload.id)
 		expect(thread.title).toEqual(payload.title)
-		expect(thread.body).toEqual(payload.body)
+		expect(thread.owner).toEqual(payload.owner)
 	})
 })

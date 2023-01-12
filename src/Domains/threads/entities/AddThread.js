@@ -1,16 +1,21 @@
 class AddThread {
-	constructor({ title, body }) {
-		this._verifyPayload({ title, body })
+	constructor({ title, body, owner }) {
+		this._verifyPayload({ title, body, owner })
 
 		this.title = title
 		this.body = body
+		this.owner = owner
 	}
 
-	_verifyPayload({ title, body }) {
-		if (!title || !body) {
+	_verifyPayload({ title, body, owner }) {
+		if (!title || !body || !owner) {
 			throw new Error('CREATE_THREAD.INVALID_PAYLOAD')
 		}
-		if (typeof title !== 'string' || typeof body !== 'string') {
+		if (
+			typeof title !== 'string' ||
+			typeof body !== 'string' ||
+			typeof owner !== 'string'
+		) {
 			throw new Error('CREATE_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION')
 		}
 		if (title.length > 50 || body.length > 50) {

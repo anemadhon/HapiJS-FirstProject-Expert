@@ -35,6 +35,7 @@ describe('a AddThread entities', () => {
 		const payload = {
 			title: 123,
 			body: [],
+			owner: 1,
 		}
 
 		expect(() => new AddThread(payload)).toThrowError(
@@ -45,6 +46,7 @@ describe('a AddThread entities', () => {
 		const payload = {
 			title: 'dicodingindonesiadicodingindonesiadicodingindonesiadicoding',
 			body: 'dicodingindonesiadicodingindonesiadicodingindonesiadicoding',
+			owner: 'user-123',
 		}
 
 		expect(() => new AddThread(payload)).toThrowError(
@@ -55,6 +57,7 @@ describe('a AddThread entities', () => {
 		const payload = {
 			title: 'title',
 			body: 'body',
+			owner: 'user-123',
 		}
 		const { title, body } = new AddThread(payload)
 
