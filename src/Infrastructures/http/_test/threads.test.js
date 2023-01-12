@@ -1,5 +1,8 @@
 const pool = require('../../database/postgres/pool')
+const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper')
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper')
+const AuthenticationsTableTestHelper = require('../../../../tests/AuthenticationsTableTestHelper')
+const GetCredentialTestHelper = require('../../../../tests/GetCredentialTestHelper')
 const container = require('../../container')
 const createServer = require('../createServer')
 
@@ -9,7 +12,9 @@ describe('/threads endpoint', () => {
 	})
 
 	afterEach(async () => {
+		await UsersTableTestHelper.cleanTable()
 		await ThreadsTableTestHelper.cleanTable()
+		await AuthenticationsTableTestHelper.cleanTable()
 	})
 
 	describe('when POST /threads', () => {
@@ -19,10 +24,14 @@ describe('/threads endpoint', () => {
 				body: 'Dicoding Indonesia',
 			}
 			const server = await createServer(container)
+			const { accessToken } = await GetCredentialTestHelper({ server })
 			const response = await server.inject({
 				method: 'POST',
 				url: '/threads',
 				payload: requestPayload,
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
 			})
 			const responseJson = JSON.parse(response.payload)
 
@@ -35,10 +44,14 @@ describe('/threads endpoint', () => {
 				title: 'Dicoding Indonesia',
 			}
 			const server = await createServer(container)
+			const { accessToken } = await GetCredentialTestHelper({ server })
 			const response = await server.inject({
 				method: 'POST',
 				url: '/threads',
 				payload: requestPayload,
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
 			})
 			const responseJson = JSON.parse(response.payload)
 
@@ -54,10 +67,14 @@ describe('/threads endpoint', () => {
 				body: 'dicodingindonesiadicodingindonesiadicodingindonesiadicoding',
 			}
 			const server = await createServer(container)
+			const { accessToken } = await GetCredentialTestHelper({ server })
 			const response = await server.inject({
 				method: 'POST',
 				url: '/threads',
 				payload: requestPayload,
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
 			})
 			const responseJson = JSON.parse(response.payload)
 
