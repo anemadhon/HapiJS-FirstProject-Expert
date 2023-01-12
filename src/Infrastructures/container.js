@@ -9,12 +9,15 @@ const Jwt = require('@hapi/jwt')
 const pool = require('./database/postgres/pool')
 
 // service (repository, helper, manager, etc)
+const ThreadRepository = require('../Domains/threads/ThreadRepository')
 const UserRepository = require('../Domains/users/UserRepository')
 const PasswordHash = require('../Applications/security/PasswordHash')
+const ThreadRepositoryPostgres = require('./repository/ThreadRepositoryPostgres')
 const UserRepositoryPostgres = require('./repository/UserRepositoryPostgres')
 const BcryptPasswordHash = require('./security/BcryptPasswordHash')
 
 // use case
+const AddThreadUseCase = require('../Applications/use_case/AddThreadUseCase')
 const AddUserUseCase = require('../Applications/use_case/AddUserUseCase')
 const AuthenticationTokenManager = require('../Applications/security/AuthenticationTokenManager')
 const JwtTokenManager = require('./security/JwtTokenManager')
@@ -29,6 +32,20 @@ const container = createContainer()
 
 // registering services and repository
 container.register([
+	{
+		key: ThreadRepository.name,
+		Class: ThreadRepositoryPostgres,
+		parameter: {
+			dependencies: [
+				{
+					concrete: pool,
+				},
+				{
+					concrete: nanoid,
+				},
+			],
+		},
+	},
 	{
 		key: UserRepository.name,
 		Class: UserRepositoryPostgres,
@@ -80,6 +97,19 @@ container.register([
 
 // registering use cases
 container.register([
+	{
+		key: AddThreadUseCase.name,
+		Class: AddThreadUseCase,
+		parameter: {
+			injectType: 'destructuring',
+			dependencies: [
+				{
+					name: 'threadRepository',
+					internal: ThreadRepository.name,
+				},
+			],
+		},
+	},
 	{
 		key: AddUserUseCase.name,
 		Class: AddUserUseCase,
