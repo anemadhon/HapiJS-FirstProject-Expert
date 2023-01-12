@@ -31,6 +31,16 @@ describe('a AddThread entities', () => {
 			'CREATE_THREAD.INVALID_PAYLOAD'
 		)
 	})
+	it('should throw error when title or body are not a string', () => {
+		const payload = {
+			title: 123,
+			body: [],
+		}
+
+		expect(() => new AddThread(payload)).toThrowError(
+			'CREATE_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION'
+		)
+	})
 	it('should throw error when title or body are reached the char limit', () => {
 		const payload = {
 			title: 'dicodingindonesiadicodingindonesiadicodingindonesiadicoding',
