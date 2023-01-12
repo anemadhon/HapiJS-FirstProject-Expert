@@ -28,8 +28,8 @@ describe('a AddThreadUseCase', () => {
 		expect(addedThread).toStrictEqual(expectedAddedThread)
 		expect(threadRepoMocked.addThread).toBeCalledWith(
 			new AddThread({
-				title: 'title one',
-				body: 'body one',
+				title: threadUseCasePayload.title,
+				body: threadUseCasePayload.body,
 			})
 		)
 	})
