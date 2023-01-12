@@ -31,6 +31,16 @@ describe('a AddThread entities', () => {
 			'CREATE_THREAD.INVALID_PAYLOAD'
 		)
 	})
+	it('should throw error when title or body are reached the char limit', () => {
+		const payload = {
+			title: 'dicodingindonesiadicodingindonesiadicodingindonesiadicoding',
+			body: 'dicodingindonesiadicodingindonesiadicodingindonesiadicoding',
+		}
+
+		expect(() => new AddThread(payload)).toThrowError(
+			'CREATE_THREAD.INVALID_PAYLOAD'
+		)
+	})
 	it('should create new Thread, return its object', () => {
 		const payload = {
 			title: 'title',
