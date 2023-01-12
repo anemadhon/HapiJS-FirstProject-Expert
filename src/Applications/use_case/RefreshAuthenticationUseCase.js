@@ -1,36 +1,38 @@
 class RefreshAuthenticationUseCase {
-  constructor({
-    authenticationRepository,
-    authenticationTokenManager,
-  }) {
-    this._authenticationRepository = authenticationRepository;
-    this._authenticationTokenManager = authenticationTokenManager;
-  }
+	constructor({ authenticationRepository, authenticationTokenManager }) {
+		this._authenticationRepository = authenticationRepository
+		this._authenticationTokenManager = authenticationTokenManager
+	}
 
-  async execute(useCasePayload) {
-    this._verifyPayload(useCasePayload);
-    
-    const { refreshToken } = useCasePayload;
+	async execute(useCasePayload) {
+		this._verifyPayload(useCasePayload)
 
-    await this._authenticationTokenManager.verifyRefreshToken(refreshToken);
-    await this._authenticationRepository.checkAvailabilityToken(refreshToken);
+		const { refreshToken } = useCasePayload
 
-    const { username, id } = await this._authenticationTokenManager.decodePayload(refreshToken);
+		await this._authenticationTokenManager.verifyRefreshToken(refreshToken)
+		await this._authenticationRepository.checkAvailabilityToken(refreshToken)
 
-    return this._authenticationTokenManager.createAccessToken({ username, id });
-  }
+		const { username, id } =
+			await this._authenticationTokenManager.decodePayload(refreshToken)
 
-  _verifyPayload(payload) {
-    const { refreshToken } = payload;
+		return this._authenticationTokenManager.createAccessToken({ username, id })
+	}
 
-    if (!refreshToken) {
-      throw new Error('REFRESH_AUTHENTICATION_USE_CASE.NOT_CONTAIN_REFRESH_TOKEN');
-    }
+	_verifyPayload(payload) {
+		const { refreshToken } = payload
 
-    if (typeof refreshToken !== 'string') {
-      throw new Error('REFRESH_AUTHENTICATION_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION');
-    }
-  }
+		if (!refreshToken) {
+			throw new Error(
+				'REFRESH_AUTHENTICATION_USE_CASE.NOT_CONTAIN_REFRESH_TOKEN'
+			)
+		}
+
+		if (typeof refreshToken !== 'string') {
+			throw new Error(
+				'REFRESH_AUTHENTICATION_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION'
+			)
+		}
+	}
 }
 
-module.exports = RefreshAuthenticationUseCase;
+module.exports = RefreshAuthenticationUseCase
