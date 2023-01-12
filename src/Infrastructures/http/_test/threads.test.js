@@ -28,7 +28,7 @@ describe('/threads endpoint', () => {
 
 			expect(response.statusCode).toEqual(201)
 			expect(responseJson.status).toEqual('success')
-			expect(responseJson.data.addedUser).toBeDefined()
+			expect(responseJson.data.addedThread).toBeDefined()
 		})
 		it('should response 400 when request payload not contain needed property', async () => {
 			const requestPayload = {

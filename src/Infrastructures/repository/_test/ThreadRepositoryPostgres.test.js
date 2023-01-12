@@ -28,7 +28,7 @@ describe('a ThreadsTableTestHelper', () => {
 			await threadRepositoryPostgres.addThread(thread)
 
 			const returnThread = await ThreadsTableTestHelper.findThreadsById(
-				'thread-123qweasdzxc890'
+				'thread-123'
 			)
 
 			expect(returnThread).toHaveLength(1)
@@ -48,7 +48,7 @@ describe('a ThreadsTableTestHelper', () => {
 
 			expect(addedThread).toStrictEqual(
 				new Thread({
-					id: 'thread-123qweasdzxc890',
+					id: 'thread-123',
 					title: 'title',
 					body: 'body',
 				})
