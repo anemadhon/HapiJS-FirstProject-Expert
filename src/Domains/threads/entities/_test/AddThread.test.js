@@ -38,7 +38,7 @@ describe('a AddThread entities', () => {
 		}
 
 		expect(() => new AddThread(payload)).toThrowError(
-			'CREATE_THREAD.INVALID_PAYLOAD'
+			'CREATE_THREAD.PAYLOAD_LIMIT_CHAR'
 		)
 	})
 	it('should create new Thread, return its object', () => {
