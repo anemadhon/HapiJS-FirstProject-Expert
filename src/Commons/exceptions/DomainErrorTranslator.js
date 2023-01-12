@@ -34,7 +34,10 @@ DomainErrorTranslator._directories = {
 	'DELETE_AUTHENTICATION_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION':
 		new InvariantError('refresh token harus string'),
 	'CREATE_THREAD.INVALID_PAYLOAD': new InvariantError(
-		'Pesan apapun selama tidak kosong.'
+		'pesan apapun selama tidak kosong.'
+	),
+	'CREATE_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
+		'data yang dikirim harus string.'
 	),
 }
 
