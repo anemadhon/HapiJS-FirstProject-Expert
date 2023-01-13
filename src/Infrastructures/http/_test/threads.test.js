@@ -84,5 +84,22 @@ describe('/threads endpoint', () => {
 				'tidak dapat menambah thread baru karena karakter title/body melebihi batas limit.'
 			)
 		})
+		it('should respond 401 when no access token provided', async () => {
+			const requestPayload = {
+				title: 'lorem ipsum',
+				body: 'dolor sit amet',
+			}
+			const server = await createServer(container)
+			const response = await server.inject({
+				method: 'POST',
+				url: '/threads',
+				payload: requestPayload,
+			})
+			const responseJson = JSON.parse(response.payload)
+
+			expect(response.statusCode).toEqual(401)
+			expect(responseJson.error).toEqual('Unauthorized')
+			expect(responseJson.message).toEqual('Missing authentication')
+		})
 	})
 })
