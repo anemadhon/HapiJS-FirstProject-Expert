@@ -102,4 +102,40 @@ describe('/threads endpoint', () => {
 			expect(responseJson.message).toEqual('Missing authentication')
 		})
 	})
+	describe('when GET /threads/{threadId}', () => {
+		it('should respond with 200 and with thread details with empty comments', async () => {
+			const server = await createServer(container)
+			const threadId = 'thread-123'
+
+			await UsersTableTestHelper.addUser({ id: 'user-123' })
+			await ThreadsTableTestHelper.addThread({
+				id: threadId,
+				owner: 'user-123',
+			})
+
+			const response = await server.inject({
+				method: 'GET',
+				url: `/threads/${threadId}`,
+			})
+			const responseJson = JSON.parse(response.payload)
+
+			expect(response.statusCode).toEqual(200)
+			expect(responseJson.status).toEqual('success')
+			expect(responseJson.data).toBeDefined()
+			expect(responseJson.data.thread).toBeDefined()
+			expect(responseJson.data.thread.comments).toHaveLength(0)
+		})
+		it('should respond with 404 if thread does not exist', async () => {
+			const server = await createServer(container)
+			const response = await server.inject({
+				method: 'GET',
+				url: '/threads/123',
+			})
+			const responseJson = JSON.parse(response.payload)
+
+			expect(response.statusCode).toEqual(404)
+			expect(responseJson.status).toEqual('fail')
+			expect(responseJson.message).toEqual('thread tidak ditemukan.')
+		})
+	})
 })
