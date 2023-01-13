@@ -66,6 +66,22 @@ describe('DomainErrorTranslator', () => {
 				'tidak dapat menambah thread baru karena karakter title/body melebihi batas limit.'
 			)
 		)
+		expect(
+			DomainErrorTranslator.translate(new Error('READ_THREAD.INVALID_PAYLOAD'))
+		).toStrictEqual(
+			new InvariantError(
+				'tidak dapat menampilkan thread karena properti yang dibutuhkan tidak ada.'
+			)
+		)
+		expect(
+			DomainErrorTranslator.translate(
+				new Error('READ_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION')
+			)
+		).toStrictEqual(
+			new InvariantError(
+				'tidak dapat menampilkan thread karena tipe data tidak sesuai.'
+			)
+		)
 	})
 
 	it('should return original error when error message is not needed to translate', () => {

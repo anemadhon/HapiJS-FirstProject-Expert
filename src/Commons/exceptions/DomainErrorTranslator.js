@@ -42,6 +42,12 @@ DomainErrorTranslator._directories = {
 	'CREATE_THREAD.PAYLOAD_LIMIT_CHAR': new InvariantError(
 		'tidak dapat menambah thread baru karena karakter title/body melebihi batas limit.'
 	),
+	'READ_THREAD.INVALID_PAYLOAD': new InvariantError(
+		'tidak dapat menampilkan thread karena properti yang dibutuhkan tidak ada.'
+	),
+	'READ_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
+		'tidak dapat menampilkan thread karena tipe data tidak sesuai.'
+	),
 }
 
 module.exports = DomainErrorTranslator
