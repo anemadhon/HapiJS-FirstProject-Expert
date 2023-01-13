@@ -72,6 +72,15 @@ describe('a ThreadRepositoryPostgres', () => {
 		})
 	})
 	describe('getThreadById function', () => {
+		it('should return 404 when thread is not found', async () => {
+			const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {})
+
+			await UsersTableTestHelper.addUser({ id: 'user-123' })
+			await ThreadsTableTestHelper.addThread({ id: 'thread-123' })
+			await expect(
+				threadRepositoryPostgres.getThreadById('thread-1234')
+			).rejects.toThrowError('thread tidak ditemukan.')
+		})
 		it('should return thread when thread is found', async () => {
 			const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {})
 

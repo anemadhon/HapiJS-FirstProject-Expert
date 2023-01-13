@@ -1,3 +1,4 @@
+const NotFoundError = require('../../Commons/exceptions/NotFoundError')
 const Thread = require('../../Domains/threads/entities/Thread')
 const ThreadRepository = require('../../Domains/threads/ThreadRepository')
 
@@ -32,7 +33,11 @@ class ThreadRepositoryPostgres extends ThreadRepository {
 		}
 		const result = await this._pool.query(query)
 
-		return result.rows[0]
+		if (result.rowCount === 0) {
+			throw new NotFoundError('thread tidak ditemukan.')
+		}
+
+		return { ...result.rows[0], date: result.rows[0].date.toISOString() }
 	}
 }
 
