@@ -100,4 +100,22 @@ describe('a ThreadRepositoryPostgres', () => {
 			)
 		})
 	})
+	describe('getThreadById function', () => {
+		it('should return thread when thread is found', async () => {
+			const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {})
+
+			await UsersTableTestHelper.addUser({ id: 'user-123' })
+			await ThreadsTableTestHelper.addThread({ id: 'thread-123' })
+
+			const theThread = await threadRepositoryPostgres.getThreadById(
+				'thread-123'
+			)
+
+			expect(theThread).toHaveProperty('id', 'thread-123')
+			expect(theThread).toHaveProperty('title', 'title')
+			expect(theThread).toHaveProperty('body', 'body')
+			expect(theThread).toHaveProperty('username', 'dicoding')
+			expect(theThread).toHaveProperty('date')
+		})
+	})
 })
