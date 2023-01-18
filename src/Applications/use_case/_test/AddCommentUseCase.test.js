@@ -6,13 +6,13 @@ const AddCommentUseCase = require('../AddCommentUseCase')
 describe('a AddCommentUseCase', () => {
 	it('should orchestrating a addComment action correctly', async () => {
 		const commentUseCasePayload = {
-			title: 'title',
-			body: 'body',
+			content: 'content',
+			thread_id: 'thread-123',
 			owner: 'user-123',
 		}
 		const expectedAddedComment = new Comment({
 			id: 'comment-123',
-			title: commentUseCasePayload.title,
+			content: commentUseCasePayload.content,
 			owner: 'user-123',
 		})
 		const commentRepoMocked = new CommentRepository()
@@ -29,14 +29,14 @@ describe('a AddCommentUseCase', () => {
 		expect(addedComment).toStrictEqual(
 			new Comment({
 				id: expectedAddedComment.id,
-				title: expectedAddedComment.title,
+				content: expectedAddedComment.content,
 				owner: expectedAddedComment.owner,
 			})
 		)
 		expect(commentRepoMocked.addComment).toBeCalledWith(
 			new AddComment({
-				title: commentUseCasePayload.title,
-				body: commentUseCasePayload.body,
+				content: commentUseCasePayload.content,
+				thread_id: commentUseCasePayload.thread_id,
 				owner: expectedAddedComment.owner,
 			})
 		)
