@@ -1,6 +1,6 @@
 class DeleteComment {
 	constructor() {
-		this.status = "success"
+		this.status = 'success'
 	}
 }
 
