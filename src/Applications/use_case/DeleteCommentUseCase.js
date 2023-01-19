@@ -4,9 +4,11 @@ class DeleteCommentUseCase {
 	}
 
 	async execute() {
-        const deletedComment = this._commentRepository.deleteComment()
+		const deletedComment = this._commentRepository.deleteComment()
 
-		return deletedComment.id && deletedComment.is_deleted ? { status: 'success' } : { status: 'fail' }
+		return deletedComment.id && deletedComment.is_deleted
+			? { status: 'success' }
+			: { status: 'fail' }
 	}
 }
 

@@ -21,11 +21,11 @@ describe('/threads/{threadId}/comments endpoint', () => {
 
 	describe('when POST /threads/{threadId}/comments', () => {
 		it('should response 201 and persisted comment', async () => {
-            const server = await createServer(container)
+			const server = await createServer(container)
 			const { accessToken } = await GetCredentialTestHelper({ server })
-            const threadId = 'thread-123'
+			const threadId = 'thread-123'
 
-            await UsersTableTestHelper.addUser({ id: 'user-123' })
+			await UsersTableTestHelper.addUser({ id: 'user-123' })
 			await ThreadsTableTestHelper.addThread({
 				id: threadId,
 				owner: 'user-123',
@@ -71,9 +71,9 @@ describe('/threads/{threadId}/comments endpoint', () => {
 		it('should response 400 when request payload not contain needed property', async () => {
 			const server = await createServer(container)
 			const { accessToken } = await GetCredentialTestHelper({ server })
-            const threadId = 'thread-123'
+			const threadId = 'thread-123'
 
-            await UsersTableTestHelper.addUser({ id: 'user-123' })
+			await UsersTableTestHelper.addUser({ id: 'user-123' })
 			await ThreadsTableTestHelper.addThread({
 				id: threadId,
 				owner: 'user-123',

@@ -24,7 +24,9 @@ describe('a AddCommentUseCase', () => {
 		const getAddCommentUseCase = new AddCommentUseCase({
 			commentRepository: commentRepoMocked,
 		})
-		const addedComment = await getAddCommentUseCase.execute(commentUseCasePayload)
+		const addedComment = await getAddCommentUseCase.execute(
+			commentUseCasePayload
+		)
 
 		expect(addedComment).toStrictEqual(
 			new Comment({

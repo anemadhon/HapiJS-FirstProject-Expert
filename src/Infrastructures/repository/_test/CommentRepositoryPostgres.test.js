@@ -21,17 +21,17 @@ describe('a CommentRepositoryPostgres', () => {
 			await UsersTableTestHelper.addUser({ id: 'user-123' })
 
 			const users = await UsersTableTestHelper.findUsersById('user-123')
-            
+
 			expect(users).toHaveLength(1)
-            
-            await ThreadsTableTestHelper.addThread({
-                id: 'thread-123',
+
+			await ThreadsTableTestHelper.addThread({
+				id: 'thread-123',
 				owner: users[0].id,
 			})
 
-            const threads = await ThreadsTableTestHelper.findThreadsById('thread-123')
+			const threads = await ThreadsTableTestHelper.findThreadsById('thread-123')
 
-            expect(threads).toHaveLength(1)
+			expect(threads).toHaveLength(1)
 
 			const fakeIdGenerator = () => '123' // stub!
 			const comment = new AddComment({
@@ -54,17 +54,17 @@ describe('a CommentRepositoryPostgres', () => {
 			await UsersTableTestHelper.addUser({ id: 'user-123' })
 
 			const users = await UsersTableTestHelper.findUsersById('user-123')
-            
+
 			expect(users).toHaveLength(1)
-            
-            await ThreadsTableTestHelper.addThread({
-                id: 'thread-123',
+
+			await ThreadsTableTestHelper.addThread({
+				id: 'thread-123',
 				owner: users[0].id,
 			})
 
-            const threads = await ThreadsTableTestHelper.findThreadsById('thread-123')
+			const threads = await ThreadsTableTestHelper.findThreadsById('thread-123')
 
-            expect(threads).toHaveLength(1)
+			expect(threads).toHaveLength(1)
 
 			const fakeIdGenerator = () => '123' // stub!
 			const comment = new AddComment({
@@ -90,26 +90,28 @@ describe('a CommentRepositoryPostgres', () => {
 			await UsersTableTestHelper.addUser({ id: 'user-123' })
 
 			const users = await UsersTableTestHelper.findUsersById('user-123')
-            
+
 			expect(users).toHaveLength(1)
-            
-            await ThreadsTableTestHelper.addThread({
-                id: 'thread-123',
+
+			await ThreadsTableTestHelper.addThread({
+				id: 'thread-123',
 				owner: users[0].id,
 			})
 
-            const threads = await ThreadsTableTestHelper.findThreadsById('thread-123')
+			const threads = await ThreadsTableTestHelper.findThreadsById('thread-123')
 
-            expect(threads).toHaveLength(1)
+			expect(threads).toHaveLength(1)
 
 			await CommentsTableTestHelper.addComment({
-                id: 'comment-123',
+				id: 'comment-123',
 				owner: users[0].id,
 			})
 
-            const comments = await CommentsTableTestHelper.findCommentsById('comment-123')
+			const comments = await CommentsTableTestHelper.findCommentsById(
+				'comment-123'
+			)
 
-            expect(comments).toHaveLength(1)
+			expect(comments).toHaveLength(1)
 
 			const fakeIdGenerator = () => '123' // stub!
 			const commentRepositoryPostgres = new CommentRepositoryPostgres(
@@ -119,11 +121,11 @@ describe('a CommentRepositoryPostgres', () => {
 			const returnComment = await CommentsTableTestHelper.findCommentsById(
 				'comment-123'
 			)
-			
+
 			expect(returnComment).toHaveLength(1)
-			
+
 			await commentRepositoryPostgres.deleteComment()
-			
+
 			const deletedComment = await CommentsTableTestHelper.findCommentsById(
 				'comment-123'
 			)
@@ -134,26 +136,28 @@ describe('a CommentRepositoryPostgres', () => {
 			await UsersTableTestHelper.addUser({ id: 'user-123' })
 
 			const users = await UsersTableTestHelper.findUsersById('user-123')
-            
+
 			expect(users).toHaveLength(1)
-            
-            await ThreadsTableTestHelper.addThread({
-                id: 'thread-123',
+
+			await ThreadsTableTestHelper.addThread({
+				id: 'thread-123',
 				owner: users[0].id,
 			})
 
-            const threads = await ThreadsTableTestHelper.findThreadsById('thread-123')
+			const threads = await ThreadsTableTestHelper.findThreadsById('thread-123')
 
-            expect(threads).toHaveLength(1)
+			expect(threads).toHaveLength(1)
 
 			await CommentsTableTestHelper.addComment({
-                id: 'comment-123',
+				id: 'comment-123',
 				owner: users[0].id,
 			})
 
-            const comments = await CommentsTableTestHelper.findCommentsById('comment-123')
+			const comments = await CommentsTableTestHelper.findCommentsById(
+				'comment-123'
+			)
 
-            expect(comments).toHaveLength(1)
+			expect(comments).toHaveLength(1)
 
 			const fakeIdGenerator = () => '123' // stub!
 			const commentRepositoryPostgres = new CommentRepositoryPostgres(

@@ -22,7 +22,7 @@ class CommentRepositoryPostgres extends CommentRepository {
 
 		return new Comment({ ...result.rows[0] })
 	}
-	
+
 	async deleteComment(comment) {
 		const { owner, thread_id, id } = comment
 
