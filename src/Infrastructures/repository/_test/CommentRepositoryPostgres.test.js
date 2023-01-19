@@ -42,7 +42,7 @@ describe('a CommentRepositoryPostgres', () => {
 				fakeIdGenerator
 			)
 
-			await commentRepositoryPostgres.AddComment(comment)
+			await commentRepositoryPostgres.addComment(comment)
 
 			const returnComment = await CommentsTableTestHelper.findCommentsById(
 				'thread-123'
@@ -74,7 +74,7 @@ describe('a CommentRepositoryPostgres', () => {
 				pool,
 				fakeIdGenerator
 			)
-			const addedComment = await commentRepositoryPostgres.AddComment(comment)
+			const addedComment = await commentRepositoryPostgres.addComment(comment)
 
 			expect(addedComment).toStrictEqual(
 				new Comment({
@@ -83,6 +83,87 @@ describe('a CommentRepositoryPostgres', () => {
 					owner: 'user-123',
 				})
 			)
+		})
+	})
+	describe('deleteComment function', () => {
+		it('should persist delete a comment', async () => {
+			await UsersTableTestHelper.addUser({ id: 'user-123' })
+
+			const users = await UsersTableTestHelper.findUsersById('user-123')
+            
+			expect(users).toHaveLength(1)
+            
+            await ThreadsTableTestHelper.addThread({
+                id: 'thread-123',
+				owner: users[0].id,
+			})
+
+            const threads = await ThreadsTableTestHelper.findThreadsById('thread-123')
+
+            expect(threads).toHaveLength(1)
+
+			await CommentsTableTestHelper.addComment({
+                id: 'comment-123',
+				owner: users[0].id,
+			})
+
+            const comments = await CommentsTableTestHelper.findCommentsById('comment-123')
+
+            expect(comments).toHaveLength(1)
+
+			const fakeIdGenerator = () => '123' // stub!
+			const commentRepositoryPostgres = new CommentRepositoryPostgres(
+				pool,
+				fakeIdGenerator
+			)
+			const returnComment = await CommentsTableTestHelper.findCommentsById(
+				'comment-123'
+			)
+			
+			expect(returnComment).toHaveLength(1)
+			
+			await commentRepositoryPostgres.deleteComment()
+			
+			const deletedComment = await CommentsTableTestHelper.findCommentsById(
+				'comment-123'
+			)
+
+			expect(deletedComment).toHaveLength(1)
+		})
+		it('should return deleted comment status correctly', async () => {
+			await UsersTableTestHelper.addUser({ id: 'user-123' })
+
+			const users = await UsersTableTestHelper.findUsersById('user-123')
+            
+			expect(users).toHaveLength(1)
+            
+            await ThreadsTableTestHelper.addThread({
+                id: 'thread-123',
+				owner: users[0].id,
+			})
+
+            const threads = await ThreadsTableTestHelper.findThreadsById('thread-123')
+
+            expect(threads).toHaveLength(1)
+
+			await CommentsTableTestHelper.addComment({
+                id: 'comment-123',
+				owner: users[0].id,
+			})
+
+            const comments = await CommentsTableTestHelper.findCommentsById('comment-123')
+
+            expect(comments).toHaveLength(1)
+
+			const fakeIdGenerator = () => '123' // stub!
+			const commentRepositoryPostgres = new CommentRepositoryPostgres(
+				pool,
+				fakeIdGenerator
+			)
+			const deletedComment = await commentRepositoryPostgres.deleteComment()
+
+			expect(deletedComment.id).toStrictEqual('comment-123')
+			expect(deletedComment.is_deleted).toStrictEqual(true)
 		})
 	})
 })
