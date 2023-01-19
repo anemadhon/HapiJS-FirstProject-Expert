@@ -8,4 +8,11 @@ describe('CommentRepository interface', () => {
 			'COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED'
 		)
 	})
+	it('should throw an error when invoke abtract behavior', async () => {
+		const CommentRepo = new CommentRepository()
+
+		await expect(CommentRepo.deleteComment()).rejects.toThrowError(
+			'COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED'
+		)
+	})
 })
