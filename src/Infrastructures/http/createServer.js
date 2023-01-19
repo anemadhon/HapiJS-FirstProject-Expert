@@ -37,6 +37,10 @@ const createServer = async container => {
 
 	await server.register([
 		{
+			plugin: comments,
+			options: { container },
+		},
+		{
 			plugin: threads,
 			options: { container },
 		},
