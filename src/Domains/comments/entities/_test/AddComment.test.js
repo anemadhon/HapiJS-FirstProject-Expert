@@ -1,14 +1,14 @@
 const AddComment = require('../AddComment')
 
 describe('a AddComment entities', () => {
-	it('should throws an error when content is invalid', () => {
-		const emptyPayload = { content: '' }
+	it('should throws an error when payload is invalid', () => {
+		const emptyPayload = { content: '', owner: '' }
 
 		expect(() => new AddComment(emptyPayload)).toThrowError(
 			'CREATE_COMMENT.INVALID_PAYLOAD'
 		)
 
-		const nullPayload = { content: null }
+		const nullPayload = { id: '', content: null }
 
 		expect(() => new AddComment(nullPayload)).toThrowError(
 			'CREATE_COMMENT.INVALID_PAYLOAD'
@@ -20,31 +20,31 @@ describe('a AddComment entities', () => {
 			'CREATE_COMMENT.INVALID_PAYLOAD'
 		)
 	})
-	it('should throws an error when content is not a string', () => {
-		const boolPayload = { content: true }
+	it('should throws an error when payload is not a string', () => {
+		const boolPayload = { id: 1, content: true, owner: [] }
 
 		expect(() => new AddComment(boolPayload)).toThrowError(
 			'CREATE_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION'
 		)
 
-		const intPayload = { content: 1 }
+		const intPayload = { id: '1', content: 1, owner: 1 }
 
 		expect(() => new AddComment(intPayload)).toThrowError(
 			'CREATE_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION'
 		)
 
-		const arrPayload = { content: ['content'] }
+		const arrPayload = { id: '1', content: 'true', owner: [] }
 
 		expect(() => new AddComment(arrPayload)).toThrowError(
 			'CREATE_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION'
 		)
 	})
 	it('should create new Comment, return its object', () => {
-		const payload = {
-			content: 'content',
-		}
-		const { content } = new AddComment(payload)
+		const payload = { id: 'comment-123', content: 'content', owner: 'user-123' }
+		const { id, content, owner } = new AddComment(payload)
 
+		expect(id).toEqual(payload.id)
 		expect(content).toEqual(payload.content)
+		expect(owner).toEqual(payload.owner)
 	})
 })
