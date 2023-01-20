@@ -35,7 +35,9 @@ describe('a CommentRepositoryPostgres', () => {
 
 			const fakeIdGenerator = () => '123' // stub!
 			const comment = new AddComment({
+				thread_id: threads[0].id,
 				content: 'content',
+				owner: users[0].id,
 			})
 			const commentRepositoryPostgres = new CommentRepositoryPostgres(
 				pool,
@@ -45,7 +47,7 @@ describe('a CommentRepositoryPostgres', () => {
 			await commentRepositoryPostgres.addComment(comment)
 
 			const returnComment = await CommentsTableTestHelper.findCommentsById(
-				'thread-123'
+				'comment-123'
 			)
 
 			expect(returnComment).toHaveLength(1)
@@ -68,7 +70,9 @@ describe('a CommentRepositoryPostgres', () => {
 
 			const fakeIdGenerator = () => '123' // stub!
 			const comment = new AddComment({
+				thread_id: threads[0].id,
 				content: 'content',
+				owner: users[0].id,
 			})
 			const commentRepositoryPostgres = new CommentRepositoryPostgres(
 				pool,
@@ -78,7 +82,7 @@ describe('a CommentRepositoryPostgres', () => {
 
 			expect(addedComment).toStrictEqual(
 				new Comment({
-					id: 'thread-123',
+					id: 'comment-123',
 					content: 'content',
 					owner: 'user-123',
 				})
@@ -104,6 +108,7 @@ describe('a CommentRepositoryPostgres', () => {
 
 			await CommentsTableTestHelper.addComment({
 				id: 'comment-123',
+				thread_id: threads[0].id,
 				owner: users[0].id,
 			})
 
@@ -124,7 +129,11 @@ describe('a CommentRepositoryPostgres', () => {
 
 			expect(returnComment).toHaveLength(1)
 
-			await commentRepositoryPostgres.deleteComment()
+			await commentRepositoryPostgres.deleteComment({
+				id: returnComment[0].id,
+				owner: users[0].id,
+				thread_id: threads[0].id,
+			})
 
 			const deletedComment = await CommentsTableTestHelper.findCommentsById(
 				'comment-123'
@@ -164,7 +173,11 @@ describe('a CommentRepositoryPostgres', () => {
 				pool,
 				fakeIdGenerator
 			)
-			const deletedComment = await commentRepositoryPostgres.deleteComment()
+			const deletedComment = await commentRepositoryPostgres.deleteComment({
+				id: returnComment[0].id,
+				owner: users[0].id,
+				thread_id: threads[0].id,
+			})
 
 			expect(deletedComment.id).toStrictEqual('comment-123')
 			expect(deletedComment.is_deleted).toStrictEqual(true)
