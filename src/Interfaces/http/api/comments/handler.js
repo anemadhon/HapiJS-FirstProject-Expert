@@ -40,7 +40,7 @@ class CommentsHandler {
 			owner,
 		})
 
-		return res.response({ status: 'success' })
+		return res.response(deletedComment)
 	}
 }
 
