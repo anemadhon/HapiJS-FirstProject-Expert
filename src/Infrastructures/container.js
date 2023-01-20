@@ -19,6 +19,7 @@ const UserRepositoryPostgres = require('./repository/UserRepositoryPostgres')
 const BcryptPasswordHash = require('./security/BcryptPasswordHash')
 
 // use case
+const DeleteCommentUseCase = require('../Applications/use_case/DeleteCommentUseCase')
 const AddCommentUseCase = require('../Applications/use_case/AddCommentUseCase')
 const AddThreadUseCase = require('../Applications/use_case/AddThreadUseCase')
 const GetThreadUseCase = require('../Applications/use_case/GetThreadUseCase')
@@ -115,6 +116,19 @@ container.register([
 
 // registering use cases
 container.register([
+	{
+		key: DeleteCommentUseCase.name,
+		Class: DeleteCommentUseCase,
+		parameter: {
+			injectType: 'destructuring',
+			dependencies: [
+				{
+					name: 'commentRepository',
+					internal: CommentRepository.name,
+				},
+			],
+		},
+	},
 	{
 		key: AddCommentUseCase.name,
 		Class: AddCommentUseCase,
