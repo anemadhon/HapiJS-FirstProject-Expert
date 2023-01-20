@@ -1,18 +1,18 @@
 class AddComment {
-	constructor({ id, content, owner }) {
-		this._verifyPayload({ id, content, owner })
+	constructor({ thread_id, content, owner }) {
+		this._verifyPayload({ thread_id, content, owner })
 
-		this.id = id
+		this.thread_id = thread_id
 		this.content = content
 		this.owner = owner
 	}
 
-	_verifyPayload({ id, content, owner }) {
-		if (!id || !content || !owner) {
+	_verifyPayload({ thread_id, content, owner }) {
+		if (!thread_id || !content || !owner) {
 			throw new Error('CREATE_COMMENT.INVALID_PAYLOAD')
 		}
 		if (
-			typeof id !== 'string' ||
+			typeof thread_id !== 'string' ||
 			typeof content !== 'string' ||
 			typeof owner !== 'string'
 		) {
