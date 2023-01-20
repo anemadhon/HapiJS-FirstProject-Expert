@@ -12,7 +12,11 @@ describe('a DeleteCommentUseCase', () => {
 		const getDeleteCommentUseCase = new DeleteCommentUseCase({
 			commentRepository: commentRepoMocked,
 		})
-		const deletedComment = await getDeleteCommentUseCase.execute()
+		const deletedComment = await getDeleteCommentUseCase.execute({
+			thread_id: 'thread-123',
+			content: 'content',
+			owner: 'user-123',
+		})
 
 		expect(deletedComment).toStrictEqual({ status: 'success' })
 	})

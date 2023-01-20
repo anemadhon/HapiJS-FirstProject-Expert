@@ -3,8 +3,8 @@ class DeleteCommentUseCase {
 		this._commentRepository = commentRepository
 	}
 
-	async execute() {
-		const deletedComment = this._commentRepository.deleteComment()
+	async execute(useCasePayload) {
+		const deletedComment = this._commentRepository.deleteComment(useCasePayload)
 
 		return deletedComment.id && deletedComment.is_deleted
 			? { status: 'success' }
