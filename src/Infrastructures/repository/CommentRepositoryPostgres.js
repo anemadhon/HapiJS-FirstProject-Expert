@@ -22,15 +22,39 @@ class CommentRepositoryPostgres extends CommentRepository {
 	}
 
 	async getComment(comment) {
-		const { thread_id, id } = comment
+		const { thread_id } = comment
 		const query = {
-			text: 'SELECT id FROM comments WHERE id = $1 AND "thread_id" = $2',
-			values: [id, thread_id],
+			text: `SELECT comments.id, username, comments."created_at" as date, content, "is_deleted" FROM comments 
+                    LEFT JOIN users 
+                    ON comments.owner = users.id 
+                    WHERE "thread_id" = $1`,
+			values: [thread_id],
 		}
 		const result = await this._pool.query(query)
 
-		if (!result.rows[0]) {
-			throw new NotFoundError('comment tidak ditemukan.')
+		if (!result.rows.length) {
+			return result.rows
+		}
+
+		return result.rows.map(comment => {
+			return {
+				...comment,
+				date: comment.date.toISOString(),
+			}
+		})
+	}
+
+	async getCommentById(id) {
+		const query = {
+			text: `SELECT id, owner FROM comments WHERE id = $1`,
+			values: [id],
+		}
+		const result = await this._pool.query(query)
+
+		if (!result.rows.length) {
+			throw new NotFoundError(
+				'gagal menghapus comment, comment tidak ditemukan.'
+			)
 		}
 
 		return result.rows[0]

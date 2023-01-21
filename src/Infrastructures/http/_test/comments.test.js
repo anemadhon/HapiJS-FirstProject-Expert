@@ -25,7 +25,10 @@ describe('/threads/{threadId}/comments endpoint', () => {
 			const { accessToken } = await GetCredentialTestHelper({ server })
 			const threadId = 'thread-123'
 
-			await UsersTableTestHelper.addUser({ id: 'user-123' })
+			await UsersTableTestHelper.addUser({
+				id: 'user-123',
+				username: 'user-xxx',
+			})
 			await ThreadsTableTestHelper.addThread({
 				id: threadId,
 				owner: 'user-123',
@@ -50,10 +53,16 @@ describe('/threads/{threadId}/comments endpoint', () => {
 		})
 		it('should response 404 when thread id not found', async () => {
 			const requestPayload = {
-				content: '',
+				content: 'content',
 			}
 			const server = await createServer(container)
 			const { accessToken } = await GetCredentialTestHelper({ server })
+
+			await UsersTableTestHelper.addUser({
+				id: 'user-123',
+				username: 'user-xxx',
+			})
+
 			const response = await server.inject({
 				method: 'POST',
 				url: '/threads/123/comments',
@@ -73,7 +82,10 @@ describe('/threads/{threadId}/comments endpoint', () => {
 			const { accessToken } = await GetCredentialTestHelper({ server })
 			const threadId = 'thread-123'
 
-			await UsersTableTestHelper.addUser({ id: 'user-123' })
+			await UsersTableTestHelper.addUser({
+				id: 'user-123',
+				username: 'user-xxx',
+			})
 			await ThreadsTableTestHelper.addThread({
 				id: threadId,
 				owner: 'user-123',

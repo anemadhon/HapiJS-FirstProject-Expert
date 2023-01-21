@@ -8,6 +8,14 @@ exports.up = pgm => {
 			type: 'TEXT',
 			notNull: true,
 		},
+		thread_id: {
+			type: 'VARCHAR(50)',
+			notNull: true,
+		},
+		owner: {
+			type: 'VARCHAR(50)',
+			notNull: true,
+		},
 		is_deleted: {
 			type: 'BOOLEAN',
 			notNull: true,
@@ -17,14 +25,6 @@ exports.up = pgm => {
 			type: 'timestamp',
 			notNull: true,
 			default: pgm.func('current_timestamp'),
-		},
-		thread_id: {
-			type: 'VARCHAR(50)',
-			notNull: true,
-		},
-		owner: {
-			type: 'VARCHAR(50)',
-			notNull: true,
 		},
 	})
 	pgm.addConstraint(

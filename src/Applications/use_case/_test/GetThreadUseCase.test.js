@@ -7,35 +7,35 @@ const GetThreadUseCase = require('../GetThreadUseCase')
 describe('a GetThreadUseCase', () => {
 	it('should orchestrating a getThread action correctly', async () => {
 		const threadId = 'thread-123'
+		const returnComments = [
+			new DetailComment({
+				id: 'comment-123',
+				username: 'username',
+				content: 'content',
+				date: '2023-01-13 09:05:12',
+			}),
+			new DetailComment({
+				id: 'comment-123',
+				username: 'username',
+				content: 'content',
+				date: '2023-01-13 09:05:12',
+			}),
+		]
 		const expectedGetThread = new GetThread({
 			id: 'thread-123',
 			title: 'title',
 			body: 'body',
 			date: '2023-01-13 09:05:12',
 			username: 'dicoding',
-			comments: [],
+			comments: returnComments,
 		})
-		const returnComments = [
-			new DetailComment({
-				id: 'comment-123',
-				username: 'dicoding-a',
-				date: '2023-01-20 11:05:12',
-				content: 'content-a',
-			}),
-			new DetailComment({
-				id: 'comment-456',
-				username: 'dicoding-b',
-				date: '2023-01-20 1:15:12',
-				content: 'content-b',
-			}),
-		]
 		const threadRepoMocked = new ThreadRepository()
 		const commentRepoMocked = new CommentRepository()
 
 		threadRepoMocked.getThreadById = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve(expectedGetThread))
-		commentRepoMocked.getCommentByThreadId = jest
+		commentRepoMocked.getComment = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve(returnComments))
 
@@ -43,9 +43,9 @@ describe('a GetThreadUseCase', () => {
 			threadRepository: threadRepoMocked,
 			commentRepository: commentRepoMocked,
 		})
-		const getThread = await getThreadUseCase.execute(threadId)
+		const getThread = await getThreadUseCase.execute({ thread_id: threadId })
 
-		expect(getThread).toStrictEqual(
+		expect(getThread).toEqual(
 			new GetThread({
 				id: 'thread-123',
 				title: 'title',

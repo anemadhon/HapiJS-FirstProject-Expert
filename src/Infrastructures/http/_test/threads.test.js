@@ -1,6 +1,7 @@
 const pool = require('../../database/postgres/pool')
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper')
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper')
+const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper')
 const AuthenticationsTableTestHelper = require('../../../../tests/AuthenticationsTableTestHelper')
 const GetCredentialTestHelper = require('../../../../tests/GetCredentialTestHelper')
 const container = require('../../container')
@@ -14,6 +15,7 @@ describe('/threads endpoint', () => {
 	afterEach(async () => {
 		await UsersTableTestHelper.cleanTable()
 		await ThreadsTableTestHelper.cleanTable()
+		await CommentsTableTestHelper.cleanTable()
 		await AuthenticationsTableTestHelper.cleanTable()
 	})
 
@@ -124,6 +126,38 @@ describe('/threads endpoint', () => {
 			expect(responseJson.data).toBeDefined()
 			expect(responseJson.data.thread).toBeDefined()
 			expect(responseJson.data.thread.comments).toHaveLength(0)
+		})
+		it('should respond with 200 and with thread details with comments', async () => {
+			const server = await createServer(container)
+			const threadId = 'thread-123'
+
+			await UsersTableTestHelper.addUser({ id: 'user-123' })
+			await ThreadsTableTestHelper.addThread({
+				id: threadId,
+				owner: 'user-123',
+			})
+			await CommentsTableTestHelper.addComment({
+				id: 'comment-123',
+				content: 'content-a',
+				owner: 'user-123',
+			})
+			await CommentsTableTestHelper.addComment({
+				id: 'comment-456',
+				content: 'content-b',
+				owner: 'user-123',
+			})
+
+			const response = await server.inject({
+				method: 'GET',
+				url: `/threads/${threadId}`,
+			})
+			const responseJson = JSON.parse(response.payload)
+
+			expect(response.statusCode).toEqual(200)
+			expect(responseJson.status).toEqual('success')
+			expect(responseJson.data).toBeDefined()
+			expect(responseJson.data.thread).toBeDefined()
+			expect(responseJson.data.thread.comments).toHaveLength(2)
 		})
 		it('should respond with 404 if thread does not exist', async () => {
 			const server = await createServer(container)
