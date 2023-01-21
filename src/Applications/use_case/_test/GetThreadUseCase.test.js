@@ -17,18 +17,18 @@ describe('a GetThreadUseCase', () => {
 		})
 		const returnComments = [
 			new DetailComment({
-			  id: 'comment-123',
-			  username: 'dicoding-a',
-			  date: '2023-01-20 11:05:12',
-			  content: 'content-a',
+				id: 'comment-123',
+				username: 'dicoding-a',
+				date: '2023-01-20 11:05:12',
+				content: 'content-a',
 			}),
 			new DetailComment({
-			  id: 'comment-456',
-			  username: 'dicoding-b',
-			  date: '2023-01-20 1:15:12',
-			  content: 'content-b',
+				id: 'comment-456',
+				username: 'dicoding-b',
+				date: '2023-01-20 1:15:12',
+				content: 'content-b',
 			}),
-		  ];
+		]
 		const threadRepoMocked = new ThreadRepository()
 		const commentRepoMocked = new CommentRepository()
 

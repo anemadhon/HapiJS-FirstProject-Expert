@@ -40,7 +40,11 @@ describe('a AddComment entities', () => {
 		)
 	})
 	it('should create new Comment, return its object', () => {
-		const payload = { thread_id: 'comment-123', content: 'content', owner: 'user-123' }
+		const payload = {
+			thread_id: 'comment-123',
+			content: 'content',
+			owner: 'user-123',
+		}
 		const { id, content, owner } = new AddComment(payload)
 
 		expect(id).toEqual(payload.id)

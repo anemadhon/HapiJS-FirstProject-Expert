@@ -9,8 +9,10 @@ class GetThreadUseCase {
 
 	async execute(threadId) {
 		const thread = await this._threadRepository.getThreadById(threadId)
-		const comments = await this._commentRepository.getCommentByThreadId(thread.id)
-		
+		const comments = await this._commentRepository.getCommentByThreadId(
+			thread.id
+		)
+
 		return new GetThread({
 			...thread,
 			comments,

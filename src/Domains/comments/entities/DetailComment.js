@@ -9,7 +9,7 @@ class Comment {
 	}
 
 	_verifyPayload({ id, username, date, content }) {
-		if (!id || !username || !date || !content ) {
+		if (!id || !username || !date || !content) {
 			throw new Error('CREATE_COMMENT.INVALID_PAYLOAD')
 		}
 		if (
