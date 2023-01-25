@@ -14,17 +14,35 @@ describe('a AddCommentUseCase', () => {
 		const expectedAddedComment = new Comment({
 			id: 'comment-123',
 			content: commentUseCasePayload.content,
-			owner: 'user-123',
+			owner: commentUseCasePayload.owner,
 		})
 		const threadRepoMocked = new ThreadRepository()
 		const commentRepoMocked = new CommentRepository()
 
+		threadRepoMocked.addThread = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve())
 		threadRepoMocked.getThreadById = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
-		commentRepoMocked.addComment = jest
+		commentRepoMocked.getComment = jest
 			.fn()
-			.mockImplementation(() => Promise.resolve(expectedAddedComment))
+			.mockImplementation(() => Promise.resolve())
+		commentRepoMocked.getCommentById = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve())
+		commentRepoMocked.deleteComment = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve())
+		commentRepoMocked.addComment = jest.fn().mockImplementation(() =>
+			Promise.resolve(
+				new Comment({
+					id: 'comment-123',
+					content: commentUseCasePayload.content,
+					owner: commentUseCasePayload.owner,
+				})
+			)
+		)
 
 		const getAddCommentUseCase = new AddCommentUseCase({
 			commentRepository: commentRepoMocked,

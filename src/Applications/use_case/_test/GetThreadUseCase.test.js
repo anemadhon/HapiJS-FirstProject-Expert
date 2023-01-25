@@ -32,9 +32,30 @@ describe('a GetThreadUseCase', () => {
 		const threadRepoMocked = new ThreadRepository()
 		const commentRepoMocked = new CommentRepository()
 
-		threadRepoMocked.getThreadById = jest
+		threadRepoMocked.addThread = jest
 			.fn()
-			.mockImplementation(() => Promise.resolve(expectedGetThread))
+			.mockImplementation(() => Promise.resolve())
+		threadRepoMocked.getThreadById = jest.fn().mockImplementation(() =>
+			Promise.resolve(
+				new GetThread({
+					id: 'thread-123',
+					title: 'title',
+					body: 'body',
+					date: '2023-01-13 09:05:12',
+					username: 'dicoding',
+					comments: returnComments,
+				})
+			)
+		)
+		commentRepoMocked.getComment = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve())
+		commentRepoMocked.getCommentById = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve())
+		commentRepoMocked.deleteComment = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.getComment = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve(returnComments))
