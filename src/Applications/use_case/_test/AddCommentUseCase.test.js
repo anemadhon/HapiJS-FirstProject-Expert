@@ -22,7 +22,7 @@ describe('a AddCommentUseCase', () => {
 		threadRepoMocked.addThread = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
-		threadRepoMocked.getThreadById = jest
+		threadRepoMocked.checkThreadIsExist = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.getComment = jest

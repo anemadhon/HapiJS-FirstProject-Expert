@@ -45,10 +45,11 @@ describe('a AddComment entities', () => {
 			content: 'content',
 			owner: 'user-123',
 		}
-		const { id, content, owner } = new AddComment(payload)
+		const { id, content, owner, thread_id } = new AddComment(payload)
 
 		expect(id).toEqual(payload.id)
 		expect(content).toEqual(payload.content)
 		expect(owner).toEqual(payload.owner)
+		expect(thread_id).toEqual(payload.thread_id)
 	})
 })

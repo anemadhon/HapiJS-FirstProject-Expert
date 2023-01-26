@@ -8,6 +8,12 @@ describe('a DeleteCommentUseCase', () => {
 	it('should orchestrating a deleteComment action correctly', async () => {
 		const commentRepoMocked = new CommentRepository()
 
+		commentRepoMocked.addComment = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve())
+		commentRepoMocked.getComment = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.getCommentById = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())

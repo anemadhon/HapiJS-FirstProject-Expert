@@ -39,6 +39,10 @@ class ThreadRepositoryPostgres extends ThreadRepository {
 
 		return { ...result.rows[0], date: result.rows[0].date.toISOString() }
 	}
+
+	async checkThreadIsExist(id) {
+		return (await this.getThreadById(id))
+	}
 }
 
 module.exports = ThreadRepositoryPostgres
