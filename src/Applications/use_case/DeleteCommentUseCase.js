@@ -16,13 +16,7 @@ class DeleteCommentUseCase {
 			)
 		}
 
-		const deletedComment = await this._commentRepository.deleteComment(
-			useCasePayload
-		)
-
-		return deletedComment.id && deletedComment.is_deleted
-			? { status: 'success' }
-			: { status: 'fail' }
+		return await this._commentRepository.deleteComment(useCasePayload)
 	}
 }
 

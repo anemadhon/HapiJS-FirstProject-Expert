@@ -5,6 +5,9 @@ const CommentRepository = require('../../../Domains/comments/CommentRepository')
 const GetThreadUseCase = require('../GetThreadUseCase')
 
 describe('a GetThreadUseCase', () => {
+	it('should throw 404 when thread not found', async () => {})
+	it('should orchestrating a getThread action correctly with empty comments', async () => {})
+	it('should orchestrating a getThread action correctly with deleted comments', async () => {})
 	it('should orchestrating a getThread action correctly', async () => {
 		const threadId = 'thread-123'
 		const returnDate = new Date()

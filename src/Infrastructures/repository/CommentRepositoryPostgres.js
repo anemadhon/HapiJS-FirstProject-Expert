@@ -65,7 +65,7 @@ class CommentRepositoryPostgres extends CommentRepository {
 			)
 		}
 
-		return result.rows[0]
+		return { status: 'success' }
 	}
 }
 

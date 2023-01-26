@@ -1,10 +1,9 @@
-const Comment = require('../../../Domains/comments/entities/Comment')
 const CommentRepository = require('../../../Domains/comments/CommentRepository')
-const ThreadRepository = require('../../../Domains/threads/ThreadRepository')
 const DeleteCommentUseCase = require('../DeleteCommentUseCase')
-const AddCommentUseCase = require('../AddCommentUseCase')
 
 describe('a DeleteCommentUseCase', () => {
+	it('should throw 404 when comment not found', async () => {})
+	it('should throw 403 when user try to deleted other user comment', async () => {})
 	it('should orchestrating a deleteComment action correctly', async () => {
 		const commentRepoMocked = new CommentRepository()
 

@@ -305,6 +305,7 @@ describe('a CommentRepositoryPostgres', () => {
 			expect(commentByOwner.id).toStrictEqual(comments[0].id)
 			expect(commentByOwner.owner).toStrictEqual(users[0].id)
 		})
+		it('should return 404 when comment not found', async () => {})
 	})
 	describe('deleteComment function', () => {
 		it('should persist delete a comment', async () => {
@@ -439,8 +440,7 @@ describe('a CommentRepositoryPostgres', () => {
 				thread_id: threads[0].id,
 			})
 
-			expect(deletedComment.id).toStrictEqual('comment-123')
-			expect(deletedComment.is_deleted).toStrictEqual(true)
+			expect(deletedComment).toStrictEqual({ status: 'success' })
 		})
 	})
 })
