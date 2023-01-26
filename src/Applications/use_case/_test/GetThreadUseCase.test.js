@@ -12,20 +12,20 @@ describe('a GetThreadUseCase', () => {
 				id: 'comment-123',
 				username: 'username',
 				content: 'content',
-				date: '2023-01-13 09:05:12',
+				date: new Date(),
 			}),
 			new DetailComment({
 				id: 'comment-123',
 				username: 'username',
 				content: 'content',
-				date: '2023-01-13 09:05:12',
+				date: new Date(),
 			}),
 		]
 		const expectedGetThread = new GetThread({
 			id: 'thread-123',
 			title: 'title',
 			body: 'body',
-			date: '2023-01-13 09:05:12',
+			date: new Date(),
 			username: 'dicoding',
 			comments: returnComments,
 		})
@@ -41,7 +41,7 @@ describe('a GetThreadUseCase', () => {
 					id: 'thread-123',
 					title: 'title',
 					body: 'body',
-					date: '2023-01-13 09:05:12',
+					date: new Date(),
 					username: 'dicoding',
 					comments: returnComments,
 				})
@@ -71,7 +71,7 @@ describe('a GetThreadUseCase', () => {
 				id: 'thread-123',
 				title: 'title',
 				body: 'body',
-				date: '2023-01-13 09:05:12',
+				date: new Date(),
 				username: 'dicoding',
 				comments: returnComments,
 			})

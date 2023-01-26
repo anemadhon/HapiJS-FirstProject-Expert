@@ -32,16 +32,7 @@ class CommentRepositoryPostgres extends CommentRepository {
 		}
 		const result = await this._pool.query(query)
 
-		if (!result.rows.length) {
-			return result.rows
-		}
-
-		return result.rows.map(comment => {
-			return {
-				...comment,
-				date: comment.date.toISOString(),
-			}
-		})
+		return result.rows
 	}
 
 	async getCommentById(id) {

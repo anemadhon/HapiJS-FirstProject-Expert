@@ -33,7 +33,7 @@ describe('a GetThread entities', () => {
 			id: 'thread-123',
 			title: 'title',
 			body: 'body',
-			date: '2023-01-13 09:05:12',
+			date: new Date(),
 			username: 'dicoding',
 			comments: 'comments',
 		}
@@ -47,7 +47,7 @@ describe('a GetThread entities', () => {
 			id: 'thread-123',
 			title: 'title',
 			body: 'body',
-			date: '2023-01-13 09:05:12',
+			date: new Date(),
 			username: 'dicoding',
 			comments: [],
 		}

@@ -38,7 +38,7 @@ describe('a DetailComment entities', () => {
 			id: 'comment-123',
 			username: 'username',
 			content: 'content',
-			date: '2023-01-13 09:05:12',
+			date: new Date(),
 		}
 		const { id, username, date, content } = new DetailComment(payload)
 
