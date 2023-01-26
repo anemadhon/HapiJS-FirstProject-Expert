@@ -7,25 +7,26 @@ const GetThreadUseCase = require('../GetThreadUseCase')
 describe('a GetThreadUseCase', () => {
 	it('should orchestrating a getThread action correctly', async () => {
 		const threadId = 'thread-123'
+		const returnDate = new Date()
 		const returnComments = [
 			new DetailComment({
 				id: 'comment-123',
 				username: 'username',
 				content: 'content',
-				date: new Date(),
+				date: returnDate,
 			}),
 			new DetailComment({
 				id: 'comment-123',
 				username: 'username',
 				content: 'content',
-				date: new Date(),
+				date: returnDate,
 			}),
 		]
 		const expectedGetThread = new GetThread({
 			id: 'thread-123',
 			title: 'title',
 			body: 'body',
-			date: new Date(),
+			date: returnDate,
 			username: 'dicoding',
 			comments: returnComments,
 		})
@@ -41,7 +42,7 @@ describe('a GetThreadUseCase', () => {
 					id: 'thread-123',
 					title: 'title',
 					body: 'body',
-					date: new Date(),
+					date: returnDate,
 					username: 'dicoding',
 					comments: returnComments,
 				})
@@ -71,7 +72,7 @@ describe('a GetThreadUseCase', () => {
 				id: 'thread-123',
 				title: 'title',
 				body: 'body',
-				date: new Date(),
+				date: returnDate,
 				username: 'dicoding',
 				comments: returnComments,
 			})
