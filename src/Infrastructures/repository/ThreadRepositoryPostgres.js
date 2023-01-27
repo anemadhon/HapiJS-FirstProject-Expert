@@ -41,7 +41,7 @@ class ThreadRepositoryPostgres extends ThreadRepository {
 	}
 
 	async checkThreadIsExist(id) {
-		return (await this.getThreadById(id))
+		return await this.getThreadById(id)
 	}
 }
 

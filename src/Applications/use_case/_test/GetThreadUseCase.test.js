@@ -45,9 +45,7 @@ describe('a GetThreadUseCase', () => {
 
 		await expect(
 			getThreadUseCase.execute({ thread_id: 'threadId' })
-		).rejects.toThrowError(
-			'thread tidak ditemukan.'
-		)
+		).rejects.toThrowError('thread tidak ditemukan.')
 	})
 	it('should orchestrating a getThread action correctly with empty comments', async () => {
 		const threadId = 'thread-123'

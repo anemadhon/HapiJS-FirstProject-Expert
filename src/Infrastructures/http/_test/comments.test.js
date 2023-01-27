@@ -256,7 +256,9 @@ describe('/threads/{threadId}/comments endpoint', () => {
 			const responseJson = JSON.parse(responseComment)
 
 			expect(responseComment.statusCode).toEqual(403)
-			expect(responseJson.message).toEqual('gagal menghapus comment, anda tidak berhak menghapus comment ini.')
+			expect(responseJson.message).toEqual(
+				'gagal menghapus comment, anda tidak berhak menghapus comment ini.'
+			)
 		})
 	})
 })

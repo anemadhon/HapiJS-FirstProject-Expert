@@ -19,7 +19,7 @@ class CommentsHandler {
 			thread_id,
 			owner,
 		})
-        
+
 		return res
 			.response({
 				status: 'success',
