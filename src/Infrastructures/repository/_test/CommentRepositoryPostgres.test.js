@@ -305,7 +305,47 @@ describe('a CommentRepositoryPostgres', () => {
 			expect(commentByOwner.id).toStrictEqual(comments[0].id)
 			expect(commentByOwner.owner).toStrictEqual(users[0].id)
 		})
-		it('should return 404 when comment not found', async () => {})
+		it('should return 404 when comment not found', async () => {
+			await UsersTableTestHelper.addUser({ id: 'user-123' })
+
+			const users = await UsersTableTestHelper.findUsersById('user-123')
+
+			expect(users).toHaveLength(1)
+
+			await ThreadsTableTestHelper.addThread({
+				id: 'thread-123',
+				owner: users[0].id,
+			})
+
+			const threads = await ThreadsTableTestHelper.findThreadsById('thread-123')
+
+			expect(threads).toHaveLength(1)
+
+			await CommentsTableTestHelper.addComment({
+				id: 'comment-123',
+				owner: users[0].id,
+			})
+
+			const comments = await CommentsTableTestHelper.findCommentsById(
+				'comment-1234'
+			)
+
+			expect(comments).toHaveLength(0)
+
+			const fakeIdGenerator = () => '123' // stub!
+			const commentRepositoryPostgres = new CommentRepositoryPostgres(
+				pool,
+				fakeIdGenerator
+			)
+
+			await expect(
+				commentRepositoryPostgres.getCommentById({
+					id: 'comment-1234',
+				})
+			).rejects.toThrowError(
+				'gagal menghapus comment, comment tidak ditemukan.'
+			)
+		})
 	})
 	describe('deleteComment function', () => {
 		it('should persist delete a comment', async () => {
