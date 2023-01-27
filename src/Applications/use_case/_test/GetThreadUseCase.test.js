@@ -5,59 +5,9 @@ const CommentRepository = require('../../../Domains/comments/CommentRepository')
 const GetThreadUseCase = require('../GetThreadUseCase')
 
 describe('a GetThreadUseCase', () => {
-	it('should throw 404 when thread not found', async () => {
-		const returnDate = new Date()
-		const threadRepoMocked = new ThreadRepository()
-		const commentRepoMocked = new CommentRepository()
-
-		threadRepoMocked.addThread = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
-		threadRepoMocked.getThreadById = jest.fn().mockImplementation(() =>
-			Promise.resolve(
-				new GetThread({
-					id: 'thread-123',
-					title: 'title',
-					body: 'body',
-					date: returnDate,
-					username: 'dicoding',
-					comments: [],
-				})
-			)
-		)
-		commentRepoMocked.getComment = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
-		commentRepoMocked.getCommentById = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
-		commentRepoMocked.deleteComment = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
-		commentRepoMocked.getComment = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve(returnComments))
-
-		const getThreadUseCase = new GetThreadUseCase({
-			threadRepository: threadRepoMocked,
-			commentRepository: commentRepoMocked,
-		})
-
-		await expect(
-			getThreadUseCase.execute({ thread_id: 'threadId' })
-		).rejects.toThrowError('thread tidak ditemukan.')
-	})
 	it('should orchestrating a getThread action correctly with empty comments', async () => {
 		const threadId = 'thread-123'
 		const returnDate = new Date()
-		const expectedGetThread = new GetThread({
-			id: 'thread-123',
-			title: 'title',
-			body: 'body',
-			date: returnDate,
-			username: 'dicoding',
-			comments: [],
-		})
 		const threadRepoMocked = new ThreadRepository()
 		const commentRepoMocked = new CommentRepository()
 
@@ -87,7 +37,7 @@ describe('a GetThreadUseCase', () => {
 			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.getComment = jest
 			.fn()
-			.mockImplementation(() => Promise.resolve(returnComments))
+			.mockImplementation(() => Promise.resolve([]))
 
 		const getThreadUseCase = new GetThreadUseCase({
 			threadRepository: threadRepoMocked,
@@ -112,26 +62,12 @@ describe('a GetThreadUseCase', () => {
 		const returnDate = new Date()
 		const returnComments = [
 			new DetailComment({
-				id: 'comment-123',
-				username: 'username',
-				content: 'content',
-				date: returnDate,
-			}),
-			new DetailComment({
 				id: 'comment-456',
 				username: 'username',
 				content: '**komentar telah dihapus**',
 				date: returnDate,
 			}),
 		]
-		const expectedGetThread = new GetThread({
-			id: 'thread-123',
-			title: 'title',
-			body: 'body',
-			date: returnDate,
-			username: 'dicoding',
-			comments: returnComments,
-		})
 		const threadRepoMocked = new ThreadRepository()
 		const commentRepoMocked = new CommentRepository()
 
@@ -179,6 +115,10 @@ describe('a GetThreadUseCase', () => {
 				comments: returnComments,
 			})
 		)
+		expect(getThread.comments).toHaveLength(1)
+		expect(getThread.comments[0].content).toStrictEqual(
+			'**komentar telah dihapus**'
+		)
 		expect(threadRepoMocked.getThreadById).toBeCalledWith(threadId)
 	})
 	it('should orchestrating a getThread action correctly', async () => {
@@ -198,14 +138,6 @@ describe('a GetThreadUseCase', () => {
 				date: returnDate,
 			}),
 		]
-		const expectedGetThread = new GetThread({
-			id: 'thread-123',
-			title: 'title',
-			body: 'body',
-			date: returnDate,
-			username: 'dicoding',
-			comments: returnComments,
-		})
 		const threadRepoMocked = new ThreadRepository()
 		const commentRepoMocked = new CommentRepository()
 

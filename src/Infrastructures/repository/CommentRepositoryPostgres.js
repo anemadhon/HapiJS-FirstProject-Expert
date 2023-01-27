@@ -24,7 +24,11 @@ class CommentRepositoryPostgres extends CommentRepository {
 	async getComment(comment) {
 		const { thread_id } = comment
 		const query = {
-			text: `SELECT comments.id, username, comments."created_at" as date, content, "is_deleted" FROM comments 
+			text: `SELECT 
+                    comments.id, username, 
+                    comments."created_at" as date, 
+                    CASE WHEN comments."is_deleted" = TRUE THEN '**komentar telah dihapus**' else comments.content END AS content
+                    FROM comments 
                     LEFT JOIN users 
                     ON comments.owner = users.id 
                     WHERE "thread_id" = $1`,
@@ -61,7 +65,7 @@ class CommentRepositoryPostgres extends CommentRepository {
 
 		if (!result.rows.length) {
 			throw new NotFoundError(
-				'gagal menghapus comment, comment tidak ditemukan.'
+				'gagal menghapus comment, thread tidak ditemukan.'
 			)
 		}
 

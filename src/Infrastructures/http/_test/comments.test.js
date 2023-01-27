@@ -128,21 +128,17 @@ describe('/threads/{threadId}/comments endpoint', () => {
 	describe('when DELETE /threads/{threadId}/comments/{commentId}', () => {
 		it('should response 200 and deleted comment', async () => {
 			const server = await createServer(container)
-			const { accessToken } = await GetCredentialTestHelper({ server })
+			const { accessToken, userId } = await GetCredentialTestHelper({ server })
 			const threadId = 'thread-123'
 			const commentId = 'comment-123'
 
-			await UsersTableTestHelper.addUser({
-				id: 'user-123',
-				username: 'username-abc',
-			})
 			await ThreadsTableTestHelper.addThread({
 				id: threadId,
-				owner: 'user-123',
+				owner: userId,
 			})
 			await CommentsTableTestHelper.addComment({
 				id: commentId,
-				owner: 'user-123',
+				owner: userId,
 			})
 
 			const responseComment = await server.inject({
@@ -152,19 +148,24 @@ describe('/threads/{threadId}/comments endpoint', () => {
 					Authorization: `Bearer ${accessToken}`,
 				},
 			})
-			const responseCommentJson = JSON.parse(responseComment)
+			const responseCommentJson = JSON.parse(responseComment.payload)
 
 			expect(responseComment.statusCode).toEqual(200)
 			expect(responseCommentJson.status).toEqual('success')
 		})
 		it('should response 404 when thread id not found', async () => {
 			const server = await createServer(container)
-			const { accessToken } = await GetCredentialTestHelper({ server })
+			const { accessToken, userId } = await GetCredentialTestHelper({ server })
+			const threadId = 'thread-123'
 			const commentId = 'comment-123'
 
-			await UsersTableTestHelper.addUser({
-				id: 'user-123',
-				username: 'user-xxx',
+			await ThreadsTableTestHelper.addThread({
+				id: threadId,
+				owner: userId,
+			})
+			await CommentsTableTestHelper.addComment({
+				id: commentId,
+				owner: userId,
 			})
 
 			const response = await server.inject({
@@ -174,24 +175,27 @@ describe('/threads/{threadId}/comments endpoint', () => {
 					Authorization: `Bearer ${accessToken}`,
 				},
 			})
-			const responseJson = JSON.parse(response)
+			const responseJson = JSON.parse(response.payload)
 
 			expect(response.statusCode).toEqual(404)
 			expect(responseJson.status).toEqual('fail')
-			expect(responseJson.message).toEqual('thread tidak ditemukan.')
+			expect(responseJson.message).toEqual(
+				'gagal menghapus comment, thread tidak ditemukan.'
+			)
 		})
 		it('should response 404 when comment id not found', async () => {
 			const server = await createServer(container)
-			const { accessToken } = await GetCredentialTestHelper({ server })
+			const { accessToken, userId } = await GetCredentialTestHelper({ server })
 			const threadId = 'thread-123'
+			const commentId = 'comment-123'
 
-			await UsersTableTestHelper.addUser({
-				id: 'user-123',
-				username: 'user-xxx',
-			})
 			await ThreadsTableTestHelper.addThread({
 				id: threadId,
-				owner: 'user-123',
+				owner: userId,
+			})
+			await CommentsTableTestHelper.addComment({
+				id: commentId,
+				owner: userId,
 			})
 
 			const response = await server.inject({
@@ -201,11 +205,13 @@ describe('/threads/{threadId}/comments endpoint', () => {
 					Authorization: `Bearer ${accessToken}`,
 				},
 			})
-			const responseJson = JSON.parse(response)
+			const responseJson = JSON.parse(response.payload)
 
 			expect(response.statusCode).toEqual(404)
 			expect(responseJson.status).toEqual('fail')
-			expect(responseJson.message).toEqual('comment tidak ditemukan.')
+			expect(responseJson.message).toEqual(
+				'gagal menghapus comment, comment tidak ditemukan.'
+			)
 		})
 		it('should respond 401 when no access token provided', async () => {
 			const server = await createServer(container)
@@ -213,7 +219,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
 				method: 'DELETE',
 				url: '/threads/{threadId}/comments/123',
 			})
-			const responseJson = JSON.parse(response)
+			const responseJson = JSON.parse(response.payload)
 
 			expect(response.statusCode).toEqual(401)
 			expect(responseJson.error).toEqual('Unauthorized')
@@ -253,7 +259,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
 					Authorization: `Bearer ${accessToken}`,
 				},
 			})
-			const responseJson = JSON.parse(responseComment)
+			const responseJson = JSON.parse(responseComment.payload)
 
 			expect(responseComment.statusCode).toEqual(403)
 			expect(responseJson.message).toEqual(

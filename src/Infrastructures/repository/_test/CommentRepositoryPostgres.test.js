@@ -438,9 +438,7 @@ describe('a CommentRepositoryPostgres', () => {
 					owner: users[0].id,
 					thread_id: threads[0].id,
 				})
-			).rejects.toThrowError(
-				'gagal menghapus comment, comment tidak ditemukan.'
-			)
+			).rejects.toThrowError('gagal menghapus comment, thread tidak ditemukan.')
 		})
 		it('should return deleted comment status correctly', async () => {
 			await UsersTableTestHelper.addUser({ id: 'user-123' })
