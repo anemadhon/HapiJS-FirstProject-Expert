@@ -343,7 +343,7 @@ describe('a CommentRepositoryPostgres', () => {
 					id: 'comment-1234',
 				})
 			).rejects.toThrowError(
-				'gagal menghapus comment, comment tidak ditemukan.'
+				'comment tidak ditemukan.'
 			)
 		})
 	})

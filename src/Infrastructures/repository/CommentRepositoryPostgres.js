@@ -48,7 +48,7 @@ class CommentRepositoryPostgres extends CommentRepository {
 
 		if (!result.rows.length) {
 			throw new NotFoundError(
-				'gagal menghapus comment, comment tidak ditemukan.'
+				'comment tidak ditemukan.'
 			)
 		}
 

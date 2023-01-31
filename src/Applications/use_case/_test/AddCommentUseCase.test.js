@@ -25,13 +25,7 @@ describe('a AddCommentUseCase', () => {
 		threadRepoMocked.checkThreadIsExist = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
-		commentRepoMocked.getComment = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.getCommentById = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
-		commentRepoMocked.deleteComment = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.addComment = jest.fn().mockImplementation(() =>

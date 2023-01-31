@@ -10,25 +10,20 @@ describe('a GetThreadUseCase', () => {
 		const returnDate = new Date()
 		const threadRepoMocked = new ThreadRepository()
 		const commentRepoMocked = new CommentRepository()
+		const threads = {
+			id: 'thread-123',
+			title: 'title',
+			body: 'body',
+			date: returnDate,
+			username: 'dicoding',
+		}
 
 		threadRepoMocked.addThread = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
 		threadRepoMocked.getThreadById = jest.fn().mockImplementation(() =>
-			Promise.resolve(
-				new GetThread({
-					id: 'thread-123',
-					title: 'title',
-					body: 'body',
-					date: returnDate,
-					username: 'dicoding',
-					comments: [],
-				})
-			)
+			Promise.resolve(threads)
 		)
-		commentRepoMocked.getComment = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.getCommentById = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
@@ -47,11 +42,7 @@ describe('a GetThreadUseCase', () => {
 
 		expect(getThread).toEqual(
 			new GetThread({
-				id: 'thread-123',
-				title: 'title',
-				body: 'body',
-				date: returnDate,
-				username: 'dicoding',
+				...threads,
 				comments: [],
 			})
 		)
@@ -60,6 +51,13 @@ describe('a GetThreadUseCase', () => {
 	it('should orchestrating a getThread action correctly with deleted comments', async () => {
 		const threadId = 'thread-123'
 		const returnDate = new Date()
+		const threads = {
+			id: 'thread-123',
+			title: 'title',
+			body: 'body',
+			date: returnDate,
+			username: 'dicoding',
+		}
 		const returnComments = [
 			new DetailComment({
 				id: 'comment-456',
@@ -75,20 +73,8 @@ describe('a GetThreadUseCase', () => {
 			.fn()
 			.mockImplementation(() => Promise.resolve())
 		threadRepoMocked.getThreadById = jest.fn().mockImplementation(() =>
-			Promise.resolve(
-				new GetThread({
-					id: 'thread-123',
-					title: 'title',
-					body: 'body',
-					date: returnDate,
-					username: 'dicoding',
-					comments: returnComments,
-				})
-			)
+			Promise.resolve(threads)
 		)
-		commentRepoMocked.getComment = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.getCommentById = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
@@ -107,11 +93,7 @@ describe('a GetThreadUseCase', () => {
 
 		expect(getThread).toEqual(
 			new GetThread({
-				id: 'thread-123',
-				title: 'title',
-				body: 'body',
-				date: returnDate,
-				username: 'dicoding',
+				...threads,
 				comments: returnComments,
 			})
 		)
@@ -124,6 +106,13 @@ describe('a GetThreadUseCase', () => {
 	it('should orchestrating a getThread action correctly', async () => {
 		const threadId = 'thread-123'
 		const returnDate = new Date()
+		const threads = {
+			id: 'thread-123',
+			title: 'title',
+			body: 'body',
+			date: returnDate,
+			username: 'dicoding',
+		}
 		const returnComments = [
 			new DetailComment({
 				id: 'comment-123',
@@ -145,20 +134,8 @@ describe('a GetThreadUseCase', () => {
 			.fn()
 			.mockImplementation(() => Promise.resolve())
 		threadRepoMocked.getThreadById = jest.fn().mockImplementation(() =>
-			Promise.resolve(
-				new GetThread({
-					id: 'thread-123',
-					title: 'title',
-					body: 'body',
-					date: returnDate,
-					username: 'dicoding',
-					comments: returnComments,
-				})
-			)
+			Promise.resolve(threads)
 		)
-		commentRepoMocked.getComment = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.getCommentById = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
@@ -177,11 +154,7 @@ describe('a GetThreadUseCase', () => {
 
 		expect(getThread).toEqual(
 			new GetThread({
-				id: 'thread-123',
-				title: 'title',
-				body: 'body',
-				date: returnDate,
-				username: 'dicoding',
+				...threads,
 				comments: returnComments,
 			})
 		)

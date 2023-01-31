@@ -210,7 +210,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
 			expect(response.statusCode).toEqual(404)
 			expect(responseJson.status).toEqual('fail')
 			expect(responseJson.message).toEqual(
-				'gagal menghapus comment, comment tidak ditemukan.'
+				'comment tidak ditemukan.'
 			)
 		})
 		it('should respond 401 when no access token provided', async () => {
