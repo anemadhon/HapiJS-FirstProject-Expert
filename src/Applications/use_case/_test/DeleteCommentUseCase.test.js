@@ -28,9 +28,7 @@ describe('a DeleteCommentUseCase', () => {
 				thread_id: 'thread-123',
 				owner: 'user-123',
 			})
-		).rejects.toThrowError(
-			'comment tidak ditemukan.'
-		)
+		).rejects.toThrowError('comment tidak ditemukan.')
 	})
 	it('should throw 403 when user try to deleted other user comment', async () => {
 		const commentRepoMocked = new CommentRepository()

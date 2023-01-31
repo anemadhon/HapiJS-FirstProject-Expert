@@ -21,9 +21,9 @@ describe('a GetThreadUseCase', () => {
 		threadRepoMocked.addThread = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
-		threadRepoMocked.getThreadById = jest.fn().mockImplementation(() =>
-			Promise.resolve(threads)
-		)
+		threadRepoMocked.getThreadById = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve(threads))
 		commentRepoMocked.getCommentById = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
@@ -72,9 +72,9 @@ describe('a GetThreadUseCase', () => {
 		threadRepoMocked.addThread = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
-		threadRepoMocked.getThreadById = jest.fn().mockImplementation(() =>
-			Promise.resolve(threads)
-		)
+		threadRepoMocked.getThreadById = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve(threads))
 		commentRepoMocked.getCommentById = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
@@ -133,9 +133,9 @@ describe('a GetThreadUseCase', () => {
 		threadRepoMocked.addThread = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
-		threadRepoMocked.getThreadById = jest.fn().mockImplementation(() =>
-			Promise.resolve(threads)
-		)
+		threadRepoMocked.getThreadById = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve(threads))
 		commentRepoMocked.getCommentById = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())

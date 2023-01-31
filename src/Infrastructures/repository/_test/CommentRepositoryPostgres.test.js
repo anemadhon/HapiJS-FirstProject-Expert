@@ -344,9 +344,7 @@ describe('a CommentRepositoryPostgres', () => {
 				commentRepositoryPostgres.getCommentById({
 					id: 'comment-1234',
 				})
-			).rejects.toThrowError(
-				'comment tidak ditemukan.'
-			)
+			).rejects.toThrowError('comment tidak ditemukan.')
 		})
 	})
 	describe('deleteComment function', () => {
