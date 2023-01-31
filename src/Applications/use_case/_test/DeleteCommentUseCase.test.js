@@ -14,9 +14,12 @@ describe('a DeleteCommentUseCase', () => {
 		commentRepoMocked.getCommentById = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
+		commentRepoMocked.checkCommentIsExist = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.deleteComment = jest
 			.fn()
-			.mockImplementation(() => Promise.resolve({ status: 'fail' }))
+			.mockImplementation(() => Promise.resolve())
 
 		const getDeleteCommentUseCase = new DeleteCommentUseCase({
 			commentRepository: commentRepoMocked,
@@ -42,9 +45,12 @@ describe('a DeleteCommentUseCase', () => {
 		commentRepoMocked.getCommentById = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
+		commentRepoMocked.checkCommentIsExist = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.deleteComment = jest
 			.fn()
-			.mockImplementation(() => Promise.resolve({ status: 'fail' }))
+			.mockImplementation(() => Promise.resolve())
 
 		const getDeleteCommentUseCase = new DeleteCommentUseCase({
 			commentRepository: commentRepoMocked,
@@ -70,6 +76,9 @@ describe('a DeleteCommentUseCase', () => {
 			.fn()
 			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.getCommentById = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve())
+		commentRepoMocked.checkCommentIsExist = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.deleteComment = jest

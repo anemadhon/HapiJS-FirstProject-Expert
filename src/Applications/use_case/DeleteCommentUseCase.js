@@ -6,6 +6,8 @@ class DeleteCommentUseCase {
 	}
 
 	async execute(useCasePayload) {
+		await this._commentRepository.checkCommentIsExist(useCasePayload.id)
+
 		const existingComment = await this._commentRepository.getCommentById(
 			useCasePayload.id
 		)

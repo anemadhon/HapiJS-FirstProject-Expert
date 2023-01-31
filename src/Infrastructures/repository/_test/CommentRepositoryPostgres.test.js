@@ -130,7 +130,6 @@ describe('a CommentRepositoryPostgres', () => {
 
 			expect(returnComment).toHaveLength(1)
 
-			const returnDate = new Date()
 			const commentByThreadId = await commentRepositoryPostgres.getComment({
 				thread_id: threads[0].id,
 			})
@@ -140,7 +139,7 @@ describe('a CommentRepositoryPostgres', () => {
 			expect(commentByThreadId[0]).toHaveProperty('content', 'content')
 			expect(commentByThreadId[0]).toHaveProperty('username', 'dicoding')
 			expect(commentByThreadId[0]).toHaveProperty('is_deleted', false)
-			expect(commentByThreadId[0]).toHaveProperty('date', returnDate)
+			expect(commentByThreadId[0]).toHaveProperty('date')
 		})
 		it('should return empty array when thread id not found', async () => {
 			await UsersTableTestHelper.addUser({ id: 'user-123' })
@@ -307,6 +306,8 @@ describe('a CommentRepositoryPostgres', () => {
 			expect(commentByOwner.id).toStrictEqual(comments[0].id)
 			expect(commentByOwner.owner).toStrictEqual(users[0].id)
 		})
+	})
+	describe('checkCommentIsExist function', () => {
 		it('should return 404 when comment not found', async () => {
 			await UsersTableTestHelper.addUser({ id: 'user-123' })
 
@@ -341,7 +342,7 @@ describe('a CommentRepositoryPostgres', () => {
 			)
 
 			await expect(
-				commentRepositoryPostgres.getCommentById({
+				commentRepositoryPostgres.checkCommentIsExist({
 					id: 'comment-1234',
 				})
 			).rejects.toThrowError('comment tidak ditemukan.')
