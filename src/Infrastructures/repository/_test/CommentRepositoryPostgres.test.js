@@ -130,6 +130,7 @@ describe('a CommentRepositoryPostgres', () => {
 
 			expect(returnComment).toHaveLength(1)
 
+			const returnDate = new Date()
 			const commentByThreadId = await commentRepositoryPostgres.getComment({
 				thread_id: threads[0].id,
 			})
@@ -138,7 +139,8 @@ describe('a CommentRepositoryPostgres', () => {
 			expect(commentByThreadId[0]).toHaveProperty('id', 'comment-123')
 			expect(commentByThreadId[0]).toHaveProperty('content', 'content')
 			expect(commentByThreadId[0]).toHaveProperty('username', 'dicoding')
-			expect(commentByThreadId[0]).toHaveProperty('date')
+			expect(commentByThreadId[0]).toHaveProperty('is_deleted', false)
+			expect(commentByThreadId[0]).toHaveProperty('date', returnDate)
 		})
 		it('should return empty array when thread id not found', async () => {
 			await UsersTableTestHelper.addUser({ id: 'user-123' })

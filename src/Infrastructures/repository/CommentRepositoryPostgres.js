@@ -27,7 +27,8 @@ class CommentRepositoryPostgres extends CommentRepository {
 			text: `SELECT 
                     comments.id, username, 
                     comments."created_at" as date, 
-                    CASE WHEN comments."is_deleted" = TRUE THEN '**komentar telah dihapus**' else comments.content END AS content
+					comments."is_deleted",
+					comments.content
                     FROM comments 
                     LEFT JOIN users 
                     ON comments.owner = users.id 
