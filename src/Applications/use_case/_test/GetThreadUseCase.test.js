@@ -59,12 +59,13 @@ describe('a GetThreadUseCase', () => {
 			username: 'dicoding',
 		}
 		const returnComments = [
-			new DetailComment({
+			{
 				id: 'comment-456',
 				username: 'username',
 				content: '**komentar telah dihapus**',
+				is_deleted: true,
 				date: returnDate,
-			}),
+			},
 		]
 		const threadRepoMocked = new ThreadRepository()
 		const commentRepoMocked = new CommentRepository()
@@ -94,7 +95,14 @@ describe('a GetThreadUseCase', () => {
 		expect(getThread).toEqual(
 			new GetThread({
 				...threads,
-				comments: returnComments,
+				comments: [
+					{
+						id: 'comment-456',
+						username: 'username',
+						content: '**komentar telah dihapus**',
+						date: returnDate,
+					},
+				],
 			})
 		)
 		expect(getThread.comments).toHaveLength(1)
