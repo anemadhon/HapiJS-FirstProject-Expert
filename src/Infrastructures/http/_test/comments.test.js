@@ -179,9 +179,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
 
 			expect(response.statusCode).toEqual(404)
 			expect(responseJson.status).toEqual('fail')
-			expect(responseJson.message).toEqual(
-				'gagal menghapus comment, thread tidak ditemukan.'
-			)
+			expect(responseJson.message).toEqual('comment tidak ditemukan.')
 		})
 		it('should response 404 when comment id not found', async () => {
 			const server = await createServer(container)
@@ -209,9 +207,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
 
 			expect(response.statusCode).toEqual(404)
 			expect(responseJson.status).toEqual('fail')
-			expect(responseJson.message).toEqual(
-				'comment tidak ditemukan.'
-			)
+			expect(responseJson.message).toEqual('comment tidak ditemukan.')
 		})
 		it('should respond 401 when no access token provided', async () => {
 			const server = await createServer(container)
@@ -245,7 +241,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
 			})
 			await CommentsTableTestHelper.addComment({
 				id: commentId,
-				owner: userId,
+				owner: 'user-456',
 			})
 			await CommentsTableTestHelper.addComment({
 				id: 'commnet-abcd',
@@ -254,7 +250,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
 
 			const responseComment = await server.inject({
 				method: 'DELETE',
-				url: `/threads/${threadId}/comments/commnet-abcd`,
+				url: `/threads/${threadId}/comments/${commentId}`,
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
 				},

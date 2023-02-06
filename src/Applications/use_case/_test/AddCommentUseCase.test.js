@@ -27,7 +27,9 @@ describe('a AddCommentUseCase', () => {
 			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.getCommentById = jest
 			.fn()
-			.mockImplementation(() => Promise.resolve())
+			.mockImplementation(() =>
+				Promise.resolve({ id: 'comment-123', owner: 'user-123' })
+			)
 		commentRepoMocked.addComment = jest.fn().mockImplementation(() =>
 			Promise.resolve(
 				new Comment({

@@ -1,6 +1,7 @@
 const NotFoundError = require('../../Commons/exceptions/NotFoundError')
 const Comment = require('../../Domains/comments/entities/Comment')
 const CommentRepository = require('../../Domains/comments/CommentRepository')
+const AuthorizationError = require('../../Commons/exceptions/AuthorizationError')
 
 class CommentRepositoryPostgres extends CommentRepository {
 	constructor(pool, idGenerator) {
@@ -50,10 +51,10 @@ class CommentRepositoryPostgres extends CommentRepository {
 		return result.rows[0]
 	}
 
-	async checkCommentIsExist(id) {
+	async checkCommentIsExist({ id, thread_id }) {
 		const query = {
-			text: `SELECT id FROM comments WHERE id = $1`,
-			values: [id],
+			text: `SELECT id FROM comments WHERE id = $1 AND "thread_id" = $2`,
+			values: [id, thread_id],
 		}
 		const result = await this._pool.query(query)
 
@@ -68,15 +69,24 @@ class CommentRepositoryPostgres extends CommentRepository {
 			text: 'UPDATE comments SET "is_deleted" = true WHERE owner = $1 AND "thread_id" = $2 AND id = $3 RETURNING id, "is_deleted"',
 			values: [owner, thread_id, id],
 		}
+
+		await this._pool.query(query)
+
+		return { status: 'success' }
+	}
+
+	async verifyAuthorityAccess(owner) {
+		const query = {
+			text: `SELECT owner FROM comments WHERE owner = $1`,
+			values: [owner],
+		}
 		const result = await this._pool.query(query)
 
 		if (!result.rows.length) {
-			throw new NotFoundError(
-				'gagal menghapus comment, thread tidak ditemukan.'
+			throw new AuthorizationError(
+				'gagal menghapus comment, anda tidak berhak menghapus comment ini.'
 			)
 		}
-
-		return { status: 'success' }
 	}
 }
 

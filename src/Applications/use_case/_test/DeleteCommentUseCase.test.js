@@ -1,81 +1,7 @@
-const AuthorizationError = require('../../../Commons/exceptions/AuthorizationError')
-const NotFoundError = require('../../../Commons/exceptions/NotFoundError')
 const CommentRepository = require('../../../Domains/comments/CommentRepository')
 const DeleteCommentUseCase = require('../DeleteCommentUseCase')
 
 describe('a DeleteCommentUseCase', () => {
-	it('should throw 404 when comment not found', async () => {
-		const commentRepoMocked = new CommentRepository()
-
-		commentRepoMocked.addComment = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
-		commentRepoMocked.getComment = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
-		commentRepoMocked.getCommentById = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
-		commentRepoMocked.checkCommentIsExist = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
-		commentRepoMocked.deleteComment = jest
-			.fn()
-			.mockImplementation(() =>
-				Promise.reject(new NotFoundError('comment tidak ditemukan.'))
-			)
-
-		const getDeleteCommentUseCase = new DeleteCommentUseCase({
-			commentRepository: commentRepoMocked,
-		})
-
-		await expect(
-			getDeleteCommentUseCase.execute({
-				id: 'comment-12',
-				thread_id: 'thread-123',
-				owner: 'user-123',
-			})
-		).rejects.toThrowError('comment tidak ditemukan.')
-	})
-	it('should throw 403 when user try to deleted other user comment', async () => {
-		const commentRepoMocked = new CommentRepository()
-
-		commentRepoMocked.addComment = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
-		commentRepoMocked.getComment = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
-		commentRepoMocked.getCommentById = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
-		commentRepoMocked.checkCommentIsExist = jest
-			.fn()
-			.mockImplementation(() => Promise.resolve())
-		commentRepoMocked.deleteComment = jest
-			.fn()
-			.mockImplementation(() =>
-				Promise.reject(
-					new AuthorizationError(
-						'gagal menghapus comment, anda tidak berhak menghapus comment ini.'
-					)
-				)
-			)
-
-		const getDeleteCommentUseCase = new DeleteCommentUseCase({
-			commentRepository: commentRepoMocked,
-		})
-
-		await expect(
-			getDeleteCommentUseCase.execute({
-				id: 'comment-123',
-				thread_id: 'thread-123',
-				owner: 'user-12345',
-			})
-		).rejects.toThrowError(
-			'gagal menghapus comment, anda tidak berhak menghapus comment ini.'
-		)
-	})
 	it('should orchestrating a deleteComment action correctly', async () => {
 		const commentRepoMocked = new CommentRepository()
 
@@ -87,8 +13,13 @@ describe('a DeleteCommentUseCase', () => {
 			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.getCommentById = jest
 			.fn()
-			.mockImplementation(() => Promise.resolve())
+			.mockImplementation(() =>
+				Promise.resolve({ id: 'comment-123', owner: 'user-123' })
+			)
 		commentRepoMocked.checkCommentIsExist = jest
+			.fn()
+			.mockImplementation(() => Promise.resolve())
+		commentRepoMocked.verifyAuthorityAccess = jest
 			.fn()
 			.mockImplementation(() => Promise.resolve())
 		commentRepoMocked.deleteComment = jest

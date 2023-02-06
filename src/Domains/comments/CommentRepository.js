@@ -8,7 +8,10 @@ class CommentRepository {
 	async getCommentById(id) {
 		throw new Error('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED')
 	}
-	async checkCommentIsExist(id) {
+	async checkCommentIsExist(comment) {
+		throw new Error('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED')
+	}
+	async verifyAuthorityAccess(owner) {
 		throw new Error('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED')
 	}
 	async deleteComment(comment) {
