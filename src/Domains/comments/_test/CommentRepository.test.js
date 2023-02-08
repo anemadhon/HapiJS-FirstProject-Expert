@@ -39,7 +39,7 @@ describe('CommentRepository interface', () => {
 	it('should throw an error when invoke abtract behavior', async () => {
 		const commentRepo = new CommentRepository()
 
-		await expect(commentRepo.verifyAuthorityAccess('')).rejects.toThrowError(
+		await expect(commentRepo.verifyAuthorityAccess({})).rejects.toThrowError(
 			'COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED'
 		)
 	})

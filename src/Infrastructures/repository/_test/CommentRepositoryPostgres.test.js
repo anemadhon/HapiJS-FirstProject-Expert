@@ -309,6 +309,45 @@ describe('a CommentRepositoryPostgres', () => {
 				})
 			).rejects.toThrowError('comment tidak ditemukan.')
 		})
+		it('should return comment id correctly', async () => {
+			await UsersTableTestHelper.addUser({ id: 'user-123' })
+
+			const users = await UsersTableTestHelper.findUsersById('user-123')
+
+			expect(users).toHaveLength(1)
+
+			await ThreadsTableTestHelper.addThread({
+				id: 'thread-123',
+				owner: users[0].id,
+			})
+
+			const threads = await ThreadsTableTestHelper.findThreadsById('thread-123')
+
+			expect(threads).toHaveLength(1)
+
+			await CommentsTableTestHelper.addComment({
+				id: 'comment-123',
+				owner: users[0].id,
+			})
+
+			const comments = await CommentsTableTestHelper.findCommentsById(
+				'comment-123'
+			)
+
+			expect(comments).toHaveLength(1)
+
+			const fakeIdGenerator = () => '123' // stub!
+			const commentRepositoryPostgres = new CommentRepositoryPostgres(
+				pool,
+				fakeIdGenerator
+			)
+			const existingComment = await commentRepositoryPostgres.checkCommentIsExist({
+				id: comments[0].id,
+				thread_id: threads[0].id,
+			})
+
+			expect(existingComment).toStrictEqual('comment-123')
+		})
 	})
 	describe('deleteComment function', () => {
 		it('should persist delete a comment', async () => {
@@ -445,11 +484,58 @@ describe('a CommentRepositoryPostgres', () => {
 
 			await expect(
 				commentRepositoryPostgres.verifyAuthorityAccess({
+					id: 'comment-123',
 					owner: users2[0].id,
 				})
 			).rejects.toThrowError(
 				'gagal menghapus comment, anda tidak berhak menghapus comment ini.'
 			)
+		})
+		it('should return comment owner correctly', async () => {
+			await UsersTableTestHelper.addUser({ id: 'user-123' })
+			await UsersTableTestHelper.addUser({
+				id: 'user-1234',
+				username: 'username.new',
+			})
+
+			const users1 = await UsersTableTestHelper.findUsersById('user-123')
+			const users2 = await UsersTableTestHelper.findUsersById('user-123')
+
+			expect(users1).toHaveLength(1)
+			expect(users2).toHaveLength(1)
+
+			await ThreadsTableTestHelper.addThread({
+				id: 'thread-123',
+				owner: users1[0].id,
+			})
+
+			const threads = await ThreadsTableTestHelper.findThreadsById('thread-123')
+
+			expect(threads).toHaveLength(1)
+
+			await CommentsTableTestHelper.addComment({
+				id: 'comment-123',
+				owner: users1[0].id,
+			})
+
+			const comments = await CommentsTableTestHelper.findCommentsById(
+				'comment-1234'
+			)
+
+			expect(comments).toHaveLength(0)
+
+			const fakeIdGenerator = () => '123' // stub!
+			const commentRepositoryPostgres = new CommentRepositoryPostgres(
+				pool,
+				fakeIdGenerator
+			)
+
+			const verified = await commentRepositoryPostgres.verifyAuthorityAccess({
+				id: comments[0].id,
+				owner: users1[0].id,
+			})
+
+			expect(verified).toStrictEqual(users1[0].id)
 		})
 	})
 })

@@ -61,6 +61,8 @@ class CommentRepositoryPostgres extends CommentRepository {
 		if (!result.rows.length) {
 			throw new NotFoundError('comment tidak ditemukan.')
 		}
+
+		return result.rows[0].id
 	}
 
 	async deleteComment(comment) {
@@ -75,10 +77,10 @@ class CommentRepositoryPostgres extends CommentRepository {
 		return { status: 'success' }
 	}
 
-	async verifyAuthorityAccess(owner) {
+	async verifyAuthorityAccess({ id, owner }) {
 		const query = {
-			text: `SELECT owner FROM comments WHERE owner = $1`,
-			values: [owner],
+			text: `SELECT owner FROM comments WHERE owner = $1 AND id = $2`,
+			values: [owner, id],
 		}
 		const result = await this._pool.query(query)
 
@@ -87,6 +89,8 @@ class CommentRepositoryPostgres extends CommentRepository {
 				'gagal menghapus comment, anda tidak berhak menghapus comment ini.'
 			)
 		}
+
+		return result.rows[0].owner
 	}
 }
 

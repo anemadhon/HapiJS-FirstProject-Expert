@@ -11,7 +11,7 @@ class CommentRepository {
 	async checkCommentIsExist(comment) {
 		throw new Error('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED')
 	}
-	async verifyAuthorityAccess(owner) {
+	async verifyAuthorityAccess(comment) {
 		throw new Error('COMMENT_REPOSITORY.METHOD_NOT_IMPLEMENTED')
 	}
 	async deleteComment(comment) {
