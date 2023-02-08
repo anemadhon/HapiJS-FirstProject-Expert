@@ -341,10 +341,11 @@ describe('a CommentRepositoryPostgres', () => {
 				pool,
 				fakeIdGenerator
 			)
-			const existingComment = await commentRepositoryPostgres.checkCommentIsExist({
-				id: comments[0].id,
-				thread_id: threads[0].id,
-			})
+			const existingComment =
+				await commentRepositoryPostgres.checkCommentIsExist({
+					id: comments[0].id,
+					thread_id: threads[0].id,
+				})
 
 			expect(existingComment).toStrictEqual('comment-123')
 		})
@@ -451,7 +452,7 @@ describe('a CommentRepositoryPostgres', () => {
 			})
 
 			const users1 = await UsersTableTestHelper.findUsersById('user-123')
-			const users2 = await UsersTableTestHelper.findUsersById('user-123')
+			const users2 = await UsersTableTestHelper.findUsersById('user-1234')
 
 			expect(users1).toHaveLength(1)
 			expect(users2).toHaveLength(1)
@@ -471,10 +472,10 @@ describe('a CommentRepositoryPostgres', () => {
 			})
 
 			const comments = await CommentsTableTestHelper.findCommentsById(
-				'comment-1234'
+				'comment-123'
 			)
 
-			expect(comments).toHaveLength(0)
+			expect(comments).toHaveLength(1)
 
 			const fakeIdGenerator = () => '123' // stub!
 			const commentRepositoryPostgres = new CommentRepositoryPostgres(
@@ -484,7 +485,7 @@ describe('a CommentRepositoryPostgres', () => {
 
 			await expect(
 				commentRepositoryPostgres.verifyAuthorityAccess({
-					id: 'comment-123',
+					id: comments[0].id,
 					owner: users2[0].id,
 				})
 			).rejects.toThrowError(
@@ -519,10 +520,10 @@ describe('a CommentRepositoryPostgres', () => {
 			})
 
 			const comments = await CommentsTableTestHelper.findCommentsById(
-				'comment-1234'
+				'comment-123'
 			)
 
-			expect(comments).toHaveLength(0)
+			expect(comments).toHaveLength(1)
 
 			const fakeIdGenerator = () => '123' // stub!
 			const commentRepositoryPostgres = new CommentRepositoryPostgres(
