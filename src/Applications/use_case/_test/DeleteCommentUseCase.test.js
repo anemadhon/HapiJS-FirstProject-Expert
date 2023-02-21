@@ -4,6 +4,11 @@ const DeleteCommentUseCase = require('../DeleteCommentUseCase')
 describe('a DeleteCommentUseCase', () => {
 	it('should orchestrating a deleteComment action correctly', async () => {
 		const commentRepoMocked = new CommentRepository()
+		const payload = {
+			id: 'comment-123',
+			thread_id: 'thread-123',
+			owner: 'user-123',
+		}
 
 		commentRepoMocked.checkCommentIsExist = jest
 			.fn()
@@ -19,25 +24,13 @@ describe('a DeleteCommentUseCase', () => {
 			commentRepository: commentRepoMocked,
 		})
 
-		const isCommentDeleted = await getDeleteCommentUseCase.execute({
-			id: 'comment-123',
-			thread_id: 'thread-123',
-			owner: 'user-123',
-		})
+		const isCommentDeleted = await getDeleteCommentUseCase.execute(payload)
 
-		expect(commentRepoMocked.checkCommentIsExist).toHaveBeenCalledWith({
-			id: 'comment-123',
-			thread_id: 'thread-123',
-		})
-		expect(commentRepoMocked.verifyAuthorityAccess).toHaveBeenCalledWith({
-			id: 'comment-123',
-			owner: 'user-123',
-		})
-		expect(commentRepoMocked.deleteComment).toHaveBeenCalledWith({
-			id: 'comment-123',
-			thread_id: 'thread-123',
-			owner: 'user-123',
-		})
+		expect(commentRepoMocked.checkCommentIsExist).toHaveBeenCalledWith(payload)
+		expect(commentRepoMocked.verifyAuthorityAccess).toHaveBeenCalledWith(
+			payload
+		)
+		expect(commentRepoMocked.deleteComment).toHaveBeenCalledWith(payload)
 		expect(isCommentDeleted).toStrictEqual({ status: 'success' })
 	})
 })

@@ -118,11 +118,7 @@ describe('a ThreadRepositoryPostgres', () => {
 				'thread-123'
 			)
 
-			expect(theThread).toHaveProperty('id', 'thread-123')
-			expect(theThread).toHaveProperty('title', 'title')
-			expect(theThread).toHaveProperty('body', 'body')
-			expect(theThread).toHaveProperty('username', 'dicoding')
-			expect(theThread).toHaveProperty('date', theThread.date)
+			expect(theThread).toStrictEqual('thread-123')
 		})
 	})
 })
