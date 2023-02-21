@@ -95,7 +95,7 @@ describe('a ThreadRepositoryPostgres', () => {
 			expect(theThread).toHaveProperty('title', 'title')
 			expect(theThread).toHaveProperty('body', 'body')
 			expect(theThread).toHaveProperty('username', 'dicoding')
-			expect(theThread).toHaveProperty('date')
+			expect(theThread).toHaveProperty('date', theThread.date)
 		})
 	})
 	describe('checkThreadIsExist function', () => {
@@ -122,7 +122,7 @@ describe('a ThreadRepositoryPostgres', () => {
 			expect(theThread).toHaveProperty('title', 'title')
 			expect(theThread).toHaveProperty('body', 'body')
 			expect(theThread).toHaveProperty('username', 'dicoding')
-			expect(theThread).toHaveProperty('date')
+			expect(theThread).toHaveProperty('date', theThread.date)
 		})
 	})
 })

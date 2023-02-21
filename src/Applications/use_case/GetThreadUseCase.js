@@ -11,19 +11,14 @@ class GetThreadUseCase {
 		const thread = await this._threadRepository.getThreadById(payload.thread_id)
 		let comments = await this._commentRepository.getComment(payload)
 
-		comments =
-			comments.length > 0
-				? comments.map(comment => {
-						return {
-							id: comment.id,
-							username: comment.username,
-							date: comment.date,
-							content: comment.is_deleted
-								? '**komentar telah dihapus**'
-								: comment.content,
-						}
-				  })
-				: comments
+		comments = comments.map(comment => {
+			return {
+				id: comment.id,
+				username: comment.username,
+				date: comment.date,
+				content: comment.is_deleted ? '**komentar telah dihapus**' : comment.content,
+			}
+		})
 
 		return new GetThread({
 			...thread,

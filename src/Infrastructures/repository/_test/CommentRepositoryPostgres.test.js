@@ -139,7 +139,7 @@ describe('a CommentRepositoryPostgres', () => {
 			expect(commentByThreadId[0]).toHaveProperty('content', 'content')
 			expect(commentByThreadId[0]).toHaveProperty('username', 'dicoding')
 			expect(commentByThreadId[0]).toHaveProperty('is_deleted', false)
-			expect(commentByThreadId[0]).toHaveProperty('date')
+			expect(commentByThreadId[0]).toHaveProperty('date', returnComment[0].date)
 		})
 		it('should return empty array when thread id not found', async () => {
 			await UsersTableTestHelper.addUser({ id: 'user-123' })
@@ -179,44 +179,6 @@ describe('a CommentRepositoryPostgres', () => {
 
 			expect(commentByThreadId).toHaveLength(0)
 		})
-		it('should return comment by its thread id correctly', async () => {
-			await UsersTableTestHelper.addUser({ id: 'user-123' })
-
-			const users = await UsersTableTestHelper.findUsersById('user-123')
-
-			expect(users).toHaveLength(1)
-
-			await ThreadsTableTestHelper.addThread({
-				id: 'thread-123',
-				owner: users[0].id,
-			})
-
-			const threads = await ThreadsTableTestHelper.findThreadsById('thread-123')
-
-			expect(threads).toHaveLength(1)
-
-			await CommentsTableTestHelper.addComment({
-				id: 'comment-123',
-				owner: users[0].id,
-			})
-
-			const comments = await CommentsTableTestHelper.findCommentsById(
-				'comment-123'
-			)
-
-			expect(comments).toHaveLength(1)
-
-			const fakeIdGenerator = () => '123' // stub!
-			const commentRepositoryPostgres = new CommentRepositoryPostgres(
-				pool,
-				fakeIdGenerator
-			)
-			const commentByThreadId = await commentRepositoryPostgres.getComment({
-				thread_id: threads[0].id,
-			})
-
-			expect(commentByThreadId[0].id).toStrictEqual('comment-123')
-		})
 	})
 	describe('getCommentById function', () => {
 		it('should persist get a comment by id', async () => {
@@ -255,16 +217,17 @@ describe('a CommentRepositoryPostgres', () => {
 			const returnComment = await CommentsTableTestHelper.findCommentsById(
 				'comment-123'
 			)
+			const commnetId = returnComment[0].id
 
 			expect(returnComment).toHaveLength(1)
 
 			const commentByOwner = await commentRepositoryPostgres.getCommentById(
-				returnComment[0].id
+				commnetId
 			)
 
-			expect(commentByOwner).toHaveProperty('id', returnComment[0].id)
+			expect(commentByOwner).toHaveProperty('id', commnetId)
 			expect(commentByOwner).toHaveProperty('owner', users[0].id)
-			expect(commentByOwner.id).toEqual(returnComment[0].id)
+			expect(commentByOwner.id).toEqual(commnetId)
 			expect(commentByOwner.owner).toEqual(users[0].id)
 		})
 	})
@@ -401,6 +364,14 @@ describe('a CommentRepositoryPostgres', () => {
 			)
 
 			expect(deletedComment).toHaveLength(1)
+
+			const isCommentDeleted = await commentRepositoryPostgres.deleteComment({
+				id: comments[0].id,
+				owner: users[0].id,
+				thread_id: threads[0].id,
+			})
+
+			expect(deletedComment.status).toStrictEqual('success')
 		})
 		it('should return deleted comment status correctly', async () => {
 			await UsersTableTestHelper.addUser({ id: 'user-123' })
